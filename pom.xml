@@ -6,7 +6,7 @@
 
   <groupId>io.quantum4j</groupId>
   <artifactId>quantum4j</artifactId>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>quantum4j</name>
@@ -34,7 +34,7 @@
       <url>https://github.com/vijayanandg/quantum4j</url>
       <connection>scm:git:git://github.com/vijayanandg/quantum4j.git</connection>
       <developerConnection>scm:git:ssh://github.com:vijayanandg/quantum4j.git</developerConnection>
-      <tag>v0.1.0</tag>
+      <tag>v1.0.0</tag>
   </scm>
 
 
@@ -125,4 +125,10 @@
       </plugins>
     </pluginManagement>
   </build>
+  <distributionManagement>
+    <repository>
+        <id>github</id>
+        <url>https://maven.pkg.github.com/vijayanandg/quantum4j</url>
+    </repository>
+</distributionManagement>
 </project>
