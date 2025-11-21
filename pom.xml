@@ -47,6 +47,15 @@
         <gpg.passphrase>${gpg.passphrase}</gpg.passphrase>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>no-gpg</id>
+            <properties>
+                <gpg.skip>true</gpg.skip>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
