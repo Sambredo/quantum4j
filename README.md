@@ -1,5 +1,5 @@
 # Quantum4J: A Modern Java Quantum Computing SDK  
-**Lightweight • Extensible • Qiskit-Inspired • JVM-Native**
+**Lightweight • Extensible • JVM-Native • Engineering-First**
 
 ![Build](https://github.com/quantum4j/quantum4j/actions/workflows/maven.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
@@ -8,18 +8,39 @@
 
 ---
 
-Quantum4J is a pure-Java quantum computing framework designed to bring quantum programming to the JVM ecosystem.  
-It provides a clean, intuitive API similar to Qiskit, a fast state-vector simulator, a QASM exporter,  
-and a growing set of standard quantum gates.
+Quantum4J is a modern, modular, and fully JVM-native quantum computing SDK designed to bring  
+**Quantum Software Engineering (QSE)** into the Java ecosystem.
 
-Quantum4J is built for:
+While most quantum tools today focus on research workflows inside notebooks, Quantum4J is built for the  
+**next phase of quantum evolution** — integrating quantum logic into real software systems, microservices,  
+enterprise pipelines, CI/CD, and cloud environments.
 
-- Java developers learning quantum computing  
-- Researchers who prefer Java tooling  
-- JVM-based enterprise applications exploring QC use-cases  
-- Developers wanting an open, extensible Java quantum SDK  
+Quantum4J is:
 
-Quantum4J is **100% open-source**, **dependency-free**, and runs circuits up to ~**25 qubits** (memory-bound).
+- A **clean quantum circuit API** for engineers  
+- A **deterministic statevector simulator**  
+- A **QASM-compatible** execution model  
+- A **JVM-first architecture** ready for enterprise use  
+- A **foundation** for future quantum engineering tools (testing, orchestration, cloud execution)
+
+Quantum4J is **100% open-source**, **dependency-free**, and currently runs circuits up to ~**25 qubits** (memory bound).
+
+---
+
+# 🚀 Why Quantum4J?
+
+Modern quantum development is dominated by research tools.  
+Quantum4J instead focuses on **engineering requirements**:
+
+- Deterministic, testable simulation  
+- Clean modular API and package structure  
+- Version-controlled quantum circuits in normal code repos  
+- Backend-agnostic QASM export  
+- JVM-native integration (Java, Kotlin, Scala)  
+- Ready for microservices, cloud deployment, and CI/CD pipelines  
+- A foundation for future orchestration, debugging, and test frameworks
+
+Quantum4J aims to become the **engineering layer** of the quantum software stack — the place where quantum meets real-world systems.
 
 ---
 
@@ -33,16 +54,16 @@ Quantum4J is **100% open-source**, **dependency-free**, and runs circuits up to 
 - **Three-qubit:** CCX (Toffoli)
 
 ## ✔ State-Vector Simulator
-- Efficient N-qubit statevector engine  
+- High-performance N-qubit statevector backend  
 - Supports 1-, 2-, and 3-qubit unitaries  
-- Custom `Complex` class (fast, immutable)  
-- Accurate quantum state collapse  
+- Custom `Complex` math implementation  
+- Deterministic and sample-based execution modes
 
 ## ✔ Measurements
 - `measure(q, c)`  
 - `measureAll()`  
-- Classical register mapping  
-- Deterministic + sampled measurement modes  
+- Classical registers  
+- Deterministic or sampled measurement behavior
 
 ## ✔ OpenQASM Exporter
 Export any circuit to **OpenQASM 2.0**:
@@ -52,23 +73,23 @@ String qasm = QasmExporter.toQasm(circuit);
 ```
 
 ## ✔ Extensible Architecture
-Implementing a new gate is as simple as:
+Create new gates with minimal boilerplate:
 
 ```java
 class MyGate extends SingleQubitGate {
-    ...
+    // implement gate matrix and name
 }
 ```
 
-## ✔ Full Example + JUnit Test Suite
-Includes examples for:
+## ✔ Example Circuits + Test Suite
+Includes reference circuits for:
 
 - Bell state  
 - GHZ state  
-- Toffoli circuit  
-- Rotations  
+- Toffoli  
 - SWAP / iSWAP  
-- More coming soon  
+- Rotation families  
+- And more  
 
 ---
 
@@ -88,7 +109,7 @@ Includes examples for:
 implementation 'io.quantum4j:quantum4j:1.0.0'
 ```
 
-## From source (current method)
+## From Source
 ```bash
 git clone https://github.com/quantum4j/quantum4j.git
 ```
@@ -171,37 +192,69 @@ measure q[1] -> c[1];
 
 ---
 
-# 🧱 Architecture Overview
+# 🔗 Using Quantum4J in Spring Boot / REST APIs
+
+Quantum4J is designed to fit naturally into backend systems and microservices.
+
+Below is a minimal **Spring Boot** example:
+
+```java
+@RestController
+@RequestMapping("/api/quantum")
+public class QuantumController {
+
+    private final StateVectorBackend backend = new StateVectorBackend();
+
+    @GetMapping("/bell")
+    public Map<String, Integer> bell() {
+        QuantumCircuit qc = QuantumCircuit.create(2)
+                .h(0)
+                .cx(0, 1)
+                .measureAll();
+
+        Result result = backend.run(qc, RunOptions.shots(1000));
+        return result.getCounts();
+    }
+}
+```
+
+---
+
+# 🏗 Reference Architecture (Microservice)
+
+```text
+[Client / UI / Mobile]
+            |
+            |  REST
+            v
+   [Spring Boot Service]
+            |
+            |  Java API Calls
+            v
+      [Quantum4J Core]
+            |
+            |  QASM / Simulator API
+            v
+[Execution Layer: Local Sim, Cloud Sim, Hardware (future)]
+```
+
+---
+
+# 🧱 Architecture Overview (Code-Level)
 
 | Module     | Description                                       |
 |------------|---------------------------------------------------|
-| circuit/   | Circuit objects, instructions, fluent builder     |
-| gates/     | Gate definitions (1, 2, 3 qubit)                  |
-| math/      | Complex arithmetic + state-vector implementation  |
-| backend/   | Execution backend (statevector simulator)         |
-| qasm/      | QASM exporter                                     |
-| examples/  | Ready-to-run examples                             |
-| tests/     | JUnit 5 test suite                                |
+| `circuit/` | Circuit objects, instructions, fluent builder     |
+| `gates/`   | Gate definitions (1, 2, 3 qubit)                  |
+| `math/`    | Complex arithmetic + state-vector implementation  |
+| `backend/` | Execution backend (statevector simulator)         |
+| `qasm/`    | QASM exporter                                     |
+| `examples/`| Ready-to-run examples                             |
+| `tests/`   | JUnit 5 test suite                                |
 
 ---
 
 # 🧪 Test Suite
-
-Quantum4J includes a comprehensive JUnit 5 suite:
-
-### Gate correctness
-- X, Y, Z  
-- H, S, T  
-- RX, RY, RZ  
-- CX, CZ  
-- SWAP, iSWAP  
-- CCX  
-
-### Other tests
-- Measurement behavior  
-- State collapse  
-- Classical register correctness  
-- QASM output  
 
 Run tests:
 ```bash
@@ -210,37 +263,21 @@ mvn test
 
 ---
 
-# ⚡ Performance (Statevector Size)
+# ⚡ Performance Notes
 
-| Qubits | Amplitudes | Approx. Memory |
-|--------|-------------|----------------|
-| 10     | 1,024       | ~16 KB         |
-| 15     | 32,768      | ~0.5 MB        |
-| 20     | 1,048,576   | ~16 MB         |
-| 25     | 33,554,432  | ~500 MB        |
-
-**25 qubits is the realistic max for Java RAM on typical machines.**
+25 qubits is the upper bound on typical JVM memory.
 
 ---
 
-# 🗺️ Future Roadmap
+# 🗺️ Roadmap
 
-### **v1.1**
-- UGate / U3Gate  
-- Controlled RX/RY/RZ  
-- Grover’s algorithm  
-- Deutsch–Jozsa  
-- Bernstein–Vazirani  
-- Expanded QASM coverage  
-
-### **v1.2**
-- Density-matrix backend  
+- U3/UGate  
+- Controlled rotations  
+- Grover's algorithm  
 - Noise models  
-- Basic transpiler  
-
-### **v1.3**
-- Hardware provider interface (IBM / IonQ / Rigetti)  
-- Cloud execution adapters  
+- Density matrices  
+- Hardware provider API  
+- Cloud execution  
 
 ---
 
@@ -260,15 +297,7 @@ Please use the **Google/IntelliJ Java style guide**.
 
 # 📄 License
 
-Quantum4J is licensed under the Apache License, Version 2.0.
-
-You may use, copy, modify, and distribute this software in source or binary form
-as long as you comply with the LICENSE and NOTICE files.
-
-Commercial usage is allowed. Patent protection is granted under Section 3 of the
-Apache License, Version 2.0.
-
-See the full license in the `LICENSE` file.
+Apache License 2.0
 
 ---
 
@@ -278,10 +307,9 @@ See the full license in the `LICENSE` file.
 Creator – Quantum4J, mainMethod  
 20+ years enterprise engineering leadership  
 Cloud-native • Microservices • Java • Spring • AI • Quantum
+# ⭐ Star the Repo
 
 ---
+If you find this useful:
 
-# ⭐ If you find Quantum4J useful…
-Please star the repo — it helps others discover it!
-
-**https://github.com/quantum4j/quantum4j**
+👉 https://github.com/quantum4j/quantum4j
