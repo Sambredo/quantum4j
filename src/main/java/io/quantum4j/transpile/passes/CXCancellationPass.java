@@ -12,6 +12,15 @@ import java.util.List;
  * Removes consecutive pairs of identical CX gates (same control and target).
  * Even counts are eliminated; odd counts leave a single CX.
  */
+/**
+ * Peephole optimization:
+ *
+ *   CX(a,b); CX(a,b)   ==>   (removed)
+ *
+ * Used to reduce circuit depth and simplify transpilation before routing.
+ * This pass is idempotent and preserves semantic equivalence.
+ */
+
 public final class CXCancellationPass implements TranspilerPass {
 
     /**
