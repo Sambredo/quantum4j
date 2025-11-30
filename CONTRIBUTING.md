@@ -7,6 +7,8 @@ Thanks for helping improve Quantum4J. This project aims to be the JVM-native, Qi
 - Prefer immutability for matrices; avoid hidden state.
 - Maintain test coverage for new features and bug fixes.
 - Follow the Google/IntelliJ Java style guide; use 4-space indentation, no tabs.
+- All contributions must be original work by the contributor; do not submit code you do not have rights to contribute.
+- By contributing, you agree that your contributions are licensed under the Apache License, Version 2.0.
 
 ## Getting Started
 1) Fork and clone the repo.  
