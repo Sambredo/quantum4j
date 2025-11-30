@@ -29,7 +29,11 @@ class QasmComplianceV20Test {
     }
 
     private String exportCompact(QuantumCircuit circuit) {
-        return QasmExporter.toQasm(circuit).replaceAll("\\s+", "");
+        return QasmExporter.toQasm(circuit)
+                .replace("\r", "")
+                .replace("\n", "")
+                .replace(" ", "")
+                .trim();
     }
 
     private void assertInstructionListsEqual(QuantumCircuit a, QuantumCircuit b) {
@@ -70,6 +74,18 @@ class QasmComplianceV20Test {
                 "measure q[0] -> c[0];\n";
         QuantumCircuit qc = QasmImporter.fromQasm(qasm);
         assertEquals(2, qc.getInstructions().size());
+    }
+
+    @Test
+    void exporterFormatCompliance() {
+        QuantumCircuit qc = QuantumCircuit.create(1).h(0).measure(0, 0);
+
+        String qasm = QasmExporter.toQasm(qc).trim();
+
+        assertTrue(qasm.startsWith("OPENQASM 2.0;"), "Must start with version header");
+        assertTrue(qasm.contains("include \"qelib1.inc\";"), "Must include standard library");
+        assertTrue(qasm.contains("qreg q[1];"), "qreg must be emitted");
+        assertTrue(qasm.contains("creg c[1];"), "creg must be emitted");
     }
 
     // (B) qreg / creg tests
@@ -201,7 +217,14 @@ class QasmComplianceV20Test {
                 case 0: qc.h(rnd.nextInt(3)); break;
                 case 1: qc.rx(rnd.nextInt(3), rnd.nextDouble()); break;
                 case 2: qc.rz(rnd.nextInt(3), rnd.nextDouble()); break;
-                case 3: qc.cx(rnd.nextInt(3) % 2, 2); break;
+                case 3: {
+                    int control = rnd.nextInt(3);
+                    int target = rnd.nextInt(3);
+                    if (control != target) {
+                        qc.cx(control, target);
+                    }
+                    break;
+                }
                 case 4: qc.u1(rnd.nextInt(3), rnd.nextDouble()); break;
                 case 5: qc.cz(0, 1); break;
                 default: break;
