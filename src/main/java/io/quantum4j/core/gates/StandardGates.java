@@ -227,4 +227,114 @@ public final class StandardGates {
             return "ccx";
         }
     }
+
+        // ----------------------------------------------------------------------
+    //  U-Gates (U1, U2, U3)
+    // ----------------------------------------------------------------------
+
+    /**
+     * U3(θ, φ, λ):
+     * [  cos(θ/2)              , -e^{iλ} sin(θ/2) ]
+     * [  e^{iφ} sin(θ/2)       ,  e^{i(φ+λ)} cos(θ/2) ]
+     */
+    public static final class U3Gate extends SingleQubitGate {
+
+        private final double theta;
+        private final double phi;
+        private final double lambda;
+
+        public U3Gate(double theta, double phi, double lambda) {
+            super(build(theta, phi, lambda));
+            this.theta = theta;
+            this.phi = phi;
+            this.lambda = lambda;
+        }
+
+        @Override
+        public String name() {
+            return "u3";
+        }
+
+        public double getTheta() { return theta; }
+        public double getPhi() { return phi; }
+        public double getLambda() { return lambda; }
+
+        private static Complex[][] build(double theta, double phi, double lambda) {
+            double half = theta / 2.0;
+            double c = Math.cos(half);
+            double s = Math.sin(half);
+
+            Complex ePhi = expI(phi);
+            Complex eLambda = expI(lambda);
+            Complex ePhiLambda = expI(phi + lambda);
+
+            return new Complex[][] {
+                { new Complex(c,0),        eLambda.mul(new Complex(-s,0)) },
+                { ePhi.mul(new Complex(s,0)), ePhiLambda.mul(new Complex(c,0)) }
+            };
+        }
+    }
+
+
+    /**
+     * U2(φ, λ) = U3(π/2, φ, λ)
+     */
+    public static final class U2Gate extends SingleQubitGate {
+
+        private final double phi;
+        private final double lambda;
+
+        public U2Gate(double phi, double lambda) {
+            super(U3Gate.build(Math.PI/2, phi, lambda));
+            this.phi = phi;
+            this.lambda = lambda;
+        }
+
+        @Override
+        public String name() {
+            return "u2";
+        }
+
+        public double getPhi() { return phi; }
+        public double getLambda() { return lambda; }
+    }
+
+
+    /**
+     * U1(λ):
+     * [[1, 0],
+     *  [0, e^{iλ}]]
+     */
+    public static final class U1Gate extends SingleQubitGate {
+
+        private final double lambda;
+
+        public U1Gate(double lambda) {
+            super(build(lambda));
+            this.lambda = lambda;
+        }
+
+        @Override
+        public String name() {
+            return "u1";
+        }
+
+        public double getLambda() { return lambda; }
+
+        private static Complex[][] build(double lambda) {
+            Complex phase = expI(lambda);
+            return new Complex[][] {
+                { Complex.ONE,  Complex.ZERO },
+                { Complex.ZERO, phase }
+            };
+        }
+    }
+
+    // ----------------------------------------------------------------------
+    // Helper for exp(iθ)
+    // ----------------------------------------------------------------------
+    private static Complex expI(double angle) {
+        return new Complex(Math.cos(angle), Math.sin(angle));
+    }
+
 }
