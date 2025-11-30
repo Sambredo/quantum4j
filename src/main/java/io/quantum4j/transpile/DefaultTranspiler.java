@@ -4,6 +4,7 @@ import io.quantum4j.core.circuit.QuantumCircuit;
 import io.quantum4j.transpile.passes.CXCancellationPass;
 import io.quantum4j.transpile.passes.RotationFusionPass;
 import io.quantum4j.transpile.passes.SwapDecompositionPass;
+import io.quantum4j.transpile.passes.U3DecompositionPass;
 
 /**
  * Default transpiler pipeline for Quantum4J.
@@ -12,6 +13,7 @@ import io.quantum4j.transpile.passes.SwapDecompositionPass;
  * <ol>
  *   <li>SwapDecompositionPass</li>
  *   <li>CXCancellationPass</li>
+ *   <li>U3DecompositionPass</li>
  *   <li>RotationFusionPass</li>
  * </ol>
  * <p>
@@ -33,8 +35,8 @@ public final class DefaultTranspiler {
         return new PassManager()
                 .addPass(new SwapDecompositionPass())
                 .addPass(new CXCancellationPass())
+                .addPass(new U3DecompositionPass())
                 .addPass(new RotationFusionPass())
                 .run(circuit);
     }
 }
-
