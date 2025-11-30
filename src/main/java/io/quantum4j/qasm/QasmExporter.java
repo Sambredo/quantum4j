@@ -5,24 +5,14 @@ import io.quantum4j.core.circuit.QuantumCircuit;
 import io.quantum4j.core.gates.*;
 
 /**
- * Utility class to export quantum circuits to OpenQASM 2.0 format.
- * <p>
- * OpenQASM (Open Quantum Assembly Language) is a standard format for representing quantum circuits. This exporter
- * converts a QuantumCircuit to valid OpenQASM code.
- * </p>
+ * Exports QuantumCircuit objects to OpenQASM 2.0.
  */
 public final class QasmExporter {
 
-    private QasmExporter() {
-    }
+    private QasmExporter() {}
 
     /**
-     * Convert a quantum circuit to OpenQASM 2.0 format.
-     *
-     * @param circuit
-     *            the circuit to export
-     *
-     * @return a string containing the OpenQASM 2.0 code
+     * Convert a circuit to OpenQASM 2.0 format.
      */
     public static String toQasm(QuantumCircuit circuit) {
 
@@ -39,18 +29,18 @@ public final class QasmExporter {
 
             switch (inst.getType()) {
 
-            case GATE:
-                appendGate(sb, inst);
-                break;
+                case GATE:
+                    appendGate(sb, inst);
+                    break;
 
-            case MEASURE:
-                int q = inst.getQubits()[0];
-                int c = inst.getClassicalBits()[0];
-                sb.append("measure q[").append(q).append("] -> c[").append(c).append("];\n");
-                break;
+                case MEASURE:
+                    int q = inst.getQubits()[0];
+                    int c = inst.getClassicalBits()[0];
+                    sb.append("measure q[").append(q).append("] -> c[").append(c).append("];\n");
+                    break;
 
-            default:
-                throw new IllegalStateException("Unknown instruction: " + inst.getType());
+                default:
+                    throw new IllegalStateException("Unknown instruction type: " + inst.getType());
             }
         }
 
@@ -63,58 +53,109 @@ public final class QasmExporter {
 
     private static void appendGate(StringBuilder sb, Instruction inst) {
 
-        Gate g = inst.getGate();
+        Gate gate = inst.getGate();
         int[] qs = inst.getQubits();
-        String name = g.name().toLowerCase();
+        String name = gate.name().toLowerCase();
 
-        // -------- Single-qubit parameterized gates --------
-        if (g instanceof RXGate) {
-            sb.append("rx(").append(((RXGate) g).getTheta()).append(") q[").append(qs[0]).append("];\n");
+        // ------------------------------------------------------------------
+        // Parameterized gates (RX, RY, RZ)
+        // ------------------------------------------------------------------
+        if (gate instanceof StandardGates.RXGate rx) {
+            sb.append("rx(").append(rx.getTheta()).append(") q[").append(qs[0]).append("];\n");
             return;
         }
 
-        if (g instanceof RYGate) {
-            sb.append("ry(").append(((RYGate) g).getTheta()).append(") q[").append(qs[0]).append("];\n");
+        if (gate instanceof StandardGates.RYGate ry) {
+            sb.append("ry(").append(ry.getTheta()).append(") q[").append(qs[0]).append("];\n");
             return;
         }
 
-        if (g instanceof RZGate) {
-            sb.append("rz(").append(((RZGate) g).getTheta()).append(") q[").append(qs[0]).append("];\n");
+        if (gate instanceof StandardGates.RZGate rz) {
+            sb.append("rz(").append(rz.getTheta()).append(") q[").append(qs[0]).append("];\n");
             return;
         }
 
-        // -------- Standard 1-qubit gates --------
-        if (g instanceof SingleQubitGate) {
-            sb.append(name).append(" q[").append(qs[0]).append("];\n");
+        // ------------------------------------------------------------------
+        // U1 / U2 / U3 gates
+        // ------------------------------------------------------------------
+        if (gate instanceof StandardGates.U1Gate u1) {
+            sb.append("u1(")
+              .append(u1.getLambda())
+              .append(") q[").append(qs[0]).append("];\n");
             return;
         }
 
-        // -------- 2-qubit gates --------
-        if (g instanceof TwoQubitGate) {
+        if (gate instanceof StandardGates.U2Gate u2) {
+            sb.append("u2(")
+              .append(u2.getPhi()).append(", ")
+              .append(u2.getLambda())
+              .append(") q[").append(qs[0]).append("];\n");
+            return;
+        }
 
-            if (g instanceof CNOTGate)
+        if (gate instanceof StandardGates.U3Gate u3) {
+            sb.append("u3(")
+              .append(u3.getTheta()).append(", ")
+              .append(u3.getPhi()).append(", ")
+              .append(u3.getLambda())
+              .append(") q[").append(qs[0]).append("];\n");
+            return;
+        }
+
+        // ------------------------------------------------------------------
+        // Standard single-qubit gates (x, y, z, h, s, t, etc.)
+        // ------------------------------------------------------------------
+        if (gate instanceof SingleQubitGate) {
+            sb.append(name)
+              .append(" q[").append(qs[0]).append("];\n");
+            return;
+        }
+
+        // ------------------------------------------------------------------
+        // 2-qubit gates
+        // ------------------------------------------------------------------
+        if (gate instanceof TwoQubitGate) {
+
+            if (gate instanceof StandardGates.CNOTGate) {
                 sb.append("cx q[").append(qs[0]).append("], q[").append(qs[1]).append("];\n");
-            else if (g instanceof CZGate)
+                return;
+            }
+
+            if (gate instanceof StandardGates.CZGate) {
                 sb.append("cz q[").append(qs[0]).append("], q[").append(qs[1]).append("];\n");
-            else if (g instanceof SWAPGate)
+                return;
+            }
+
+            if (gate instanceof StandardGates.SWAPGate) {
                 sb.append("swap q[").append(qs[0]).append("], q[").append(qs[1]).append("];\n");
-            else if (g instanceof ISWAPGate)
+                return;
+            }
+
+            if (gate instanceof StandardGates.ISWAPGate) {
                 sb.append("iswap q[").append(qs[0]).append("], q[").append(qs[1]).append("];\n");
-            else if (g instanceof CHGate)
+                return;
+            }
+
+            if (gate instanceof StandardGates.CHGate) {
                 sb.append("ch q[").append(qs[0]).append("], q[").append(qs[1]).append("];\n");
-            else
-                sb.append(name).append(" q[").append(qs[0]).append("], q[").append(qs[1]).append("];\n");
+                return;
+            }
 
+            // Fallback for unknown 2-qubit gate
+            sb.append(name).append(" q[").append(qs[0])
+              .append("], q[").append(qs[1]).append("];\n");
             return;
         }
 
-        // -------- 3-qubit gates --------
-        if (g instanceof CCXGate) {
-            sb.append("ccx q[").append(qs[0]).append("], q[").append(qs[1]).append("], q[").append(qs[2])
-                    .append("];\n");
+        // ------------------------------------------------------------------
+        // 3-qubit gates (currently CCX)
+        // ------------------------------------------------------------------
+        if (gate instanceof StandardGates.CCXGate) {
+            sb.append("ccx q[").append(qs[0]).append("], q[").append(qs[1])
+              .append("], q[").append(qs[2]).append("];\n");
             return;
         }
 
-        throw new UnsupportedOperationException("Unknown gate type: " + g.getClass());
+        throw new UnsupportedOperationException("Unsupported gate type: " + gate.getClass().getName());
     }
 }
