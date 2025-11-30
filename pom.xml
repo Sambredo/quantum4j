@@ -45,6 +45,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!--<gpg.passphrase>${gpg.passphrase}</gpg.passphrase>-->
+        <!-- Path to the GPG executable used by the maven-gpg-plugin. Change this if GPG is not on PATH. -->
+        <gpg.executable>gpg</gpg.executable>
     </properties>
 
     <dependencies>
@@ -120,8 +122,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <gpgExecutable>gpg</gpgExecutable>
-                    <!--<gpgPassphrase>${gpg.passphrase}</gpgPassphrase>-->
+                    <!-- use the standard 'executable' property for the plugin and read value from project property -->
+                    <executable>${gpg.executable}</executable>
+                    <!--<passphrase>${gpg.passphrase}</passphrase>-->
                 </configuration>
             </plugin>
 
