@@ -95,4 +95,16 @@ public final class Instruction {
     public int[] getClassicalBits() {
         return classicalBits;
     }
+
+    /**
+     * Create a deep copy of this instruction. Gate instances are treated as immutable and are shared; qubit/classical
+     * index arrays are cloned to avoid aliasing.
+     *
+     * @return a new Instruction with the same contents
+     */
+    public Instruction copy() {
+        int[] qCopy = (qubits != null) ? qubits.clone() : null;
+        int[] cCopy = (classicalBits != null) ? classicalBits.clone() : null;
+        return new Instruction(type, gate, qCopy, cCopy);
+    }
 }

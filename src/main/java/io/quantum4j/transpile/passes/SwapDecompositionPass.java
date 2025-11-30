@@ -48,7 +48,8 @@ public final class SwapDecompositionPass implements TranspilerPass {
                 out.cx(b, a);
                 out.cx(a, b);
             } else {
-                out.addInstruction(inst);
+                // Clone to honor instruction immutability across passes
+                out.addInstruction(inst.copy());
             }
         }
 
