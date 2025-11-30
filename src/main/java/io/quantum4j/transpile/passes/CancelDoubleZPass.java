@@ -8,7 +8,16 @@ import io.quantum4j.transpile.TranspilerPass;
 
 import java.util.List;
 
+/**
+ * Removes adjacent pairs of Z gates on the same qubit.
+ */
 public final class CancelDoubleZPass implements TranspilerPass {
+
+    /**
+     * Create the double-Z cancellation pass.
+     */
+    public CancelDoubleZPass() {
+    }
 
     @Override
     public String name() {

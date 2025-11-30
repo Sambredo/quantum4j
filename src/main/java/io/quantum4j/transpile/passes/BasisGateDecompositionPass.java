@@ -7,9 +7,18 @@ import io.quantum4j.transpile.TranspilerPass;
 
 import java.util.List;
 
+/**
+ * Decomposes U1/U2/U3 gates into the RX/RY/RZ basis (and preserves measurements).
+ */
 public final class BasisGateDecompositionPass implements TranspilerPass {
 
     private static final double PI = Math.PI;
+
+    /**
+     * Create a basis gate decomposition pass.
+     */
+    public BasisGateDecompositionPass() {
+    }
 
     @Override
     public String name() {

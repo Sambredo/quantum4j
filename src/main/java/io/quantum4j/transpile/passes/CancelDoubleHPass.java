@@ -8,7 +8,16 @@ import io.quantum4j.transpile.TranspilerPass;
 
 import java.util.List;
 
+/**
+ * Removes adjacent pairs of H gates on the same qubit (H followed by H is identity).
+ */
 public final class CancelDoubleHPass implements TranspilerPass {
+
+    /**
+     * Create the double-H cancellation pass.
+     */
+    public CancelDoubleHPass() {
+    }
 
     @Override
     public String name() {

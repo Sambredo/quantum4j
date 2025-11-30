@@ -15,12 +15,17 @@ public interface TranspilerPass {
 
     /**
      * Human-readable name of this pass (for logging, debugging, profiling).
+     *
+     * @return pass identifier
      */
     String name();
 
     /**
      * Apply this pass to the given circuit and return a new circuit.
      * Implementations should not mutate the input circuit.
+     *
+     * @param circuit input circuit (not mutated)
+     * @return transformed circuit
      */
     QuantumCircuit apply(QuantumCircuit circuit);
 }

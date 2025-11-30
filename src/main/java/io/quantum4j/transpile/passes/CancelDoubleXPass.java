@@ -11,6 +11,12 @@ import io.quantum4j.transpile.TranspilerPass;
  */
 public final class CancelDoubleXPass implements TranspilerPass {
 
+    /**
+     * Create the double-X cancellation pass.
+     */
+    public CancelDoubleXPass() {
+    }
+
     @Override
     public String name() {
         return "cancel_x_x";

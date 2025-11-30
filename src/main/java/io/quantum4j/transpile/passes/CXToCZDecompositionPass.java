@@ -9,12 +9,18 @@ import java.util.List;
 /**
  * Transpiler pass that decomposes CX/CNOT into:
  *
- *     H(target) → CZ(control, target) → H(target)
+ * H(target) + CZ(control, target) + H(target)
  *
- * This pass is intentionally robust:
- * it detects CNOT even if the gate did not originate from StandardGates.CNOTGate.
+ * This pass is intentionally robust: it detects CNOT even if the gate did not originate from
+ * {@link io.quantum4j.core.gates.StandardGates.CNOTGate}.
  */
 public final class CXToCZDecompositionPass implements TranspilerPass {
+
+    /**
+     * Create the CX-to-CZ decomposition pass.
+     */
+    public CXToCZDecompositionPass() {
+    }
 
     @Override
     public String name() {
@@ -32,17 +38,13 @@ public final class CXToCZDecompositionPass implements TranspilerPass {
 
         for (Instruction inst : instructions) {
 
-            // -------------------------------------------------------
             // Preserve measurement instructions exactly
-            // -------------------------------------------------------
             if (inst.getType() == Instruction.Type.MEASURE) {
                 out.measure(inst.getQubits()[0], inst.getClassicalBits()[0]);
                 continue;
             }
 
-            // -------------------------------------------------------
             // Gate instructions — detect CNOT robustly
-            // -------------------------------------------------------
             if (inst.getType() == Instruction.Type.GATE && inst.getGate() != null) {
 
                 String gateName = inst.getGate().name().toLowerCase();
@@ -56,7 +58,7 @@ public final class CXToCZDecompositionPass implements TranspilerPass {
                     int control = q[0];
                     int target = q[1];
 
-                    // CX(c,t) → H(t), CZ(c,t), H(t)
+                    // CX(c,t) => H(t), CZ(c,t), H(t)
                     out.h(target);
                     out.cz(control, target);
                     out.h(target);
@@ -64,12 +66,11 @@ public final class CXToCZDecompositionPass implements TranspilerPass {
                 }
             }
 
-            // -------------------------------------------------------
             // Copy all other instructions unchanged
-            // -------------------------------------------------------
             out.addInstruction(inst);
         }
 
         return out;
     }
 }
+
