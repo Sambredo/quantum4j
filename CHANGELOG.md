@@ -118,3 +118,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Circuit visualization
 - Bloch sphere visualization tools
 - Integration with IBMQ / Braket (future)
+
+---
+
+## [1.3.0] - 2025-12-XX
+### Added
+- Transpiler passes: `GateCommutationPass`, `GateInversionPass`, `RotationFusionPass`, `SwapDecompositionPass`, `CXCancellationPass`, `U3DecompositionPass`.
+- QASM: expanded compliance/round-trip tests and QASM demos (export, import, errors, transpiler).
+- Algorithms: Quantum Fourier Transform (QFT) and inverse QFT circuits, demos, and tests.
+- Examples: unified examples under `io.quantum4j.examples`, including commutation and QASM demos.
+
+### Changed
+- Default transpiler pipeline now includes U3 decomposition before rotation fusion.
+
+### Testing
+- Broadened JUnit coverage for transpiler passes, QASM importer/exporter, and QFT.
+
+---
+
+## [1.2.0] - 2025-11-30
+### Added
+- Transpiler framework:
+  - `PassManager` and `TranspilerPass` interfaces for circuit-level optimizations.
+  - Basis gate decomposition (U1/U2/U3 → RX/RY/RZ) via `BasisGateDecompositionPass`.
+  - CX→CZ decomposition via `CXToCZDecompositionPass`.
+  - Structural optimization passes: cancel double X/Z/H gates and remove redundant measurements.
+- Strict OpenQASM 2.0 importer:
+  - Deterministic parsing for U1/U2/U3, RX/RY/RZ, CX/CZ/CH/SWAP/iSWAP/CCX.
+  - Rejects trailing or malformed input for safer integration.
+- Example circuits:
+  - Basis decomposition, CX decomposition, U1/U2/U3 usage.
+  - QASM round-trip and transpiler pipeline examples.
+- OSS hygiene and documentation:
+  - CONTRIBUTING, CODE_OF_CONDUCT, SECURITY policy.
+  - GitHub issue templates and pull request template.
+
+### Fixed
+- Two-qubit gate semantics:
+  - Ensured no internal qubit reordering; matrices follow parameter order.
+  - Correct CNOT / CX control–target behavior.
+- CCX (Toffoli) semantics:
+  - Correct three-qubit ordering in `ThreeQubitGate` to match tests.
+- Decomposition correctness:
+  - Fixed gate ordering in decomposition passes to match expected unitary behavior.
+- Javadoc / doclint:
+  - Resolved blocking doclint issues and improved Javadoc on transpiler APIs.

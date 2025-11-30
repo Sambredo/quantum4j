@@ -95,18 +95,18 @@ Includes reference circuits for:
 
 # 📦 Installation
 
-## Maven (coming soon to Central)
+## Maven (Maven Central)
 ```xml
 <dependency>
     <groupId>io.github.quantum4j</groupId>
     <artifactId>quantum4j</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
 ## Gradle
 ```gradle
-implementation 'io.quantum4j:quantum4j:1.2.0'
+implementation 'io.quantum4j:quantum4j:1.3.0'
 ```
 
 ## From Source
@@ -297,7 +297,8 @@ Please use the **Google/IntelliJ Java style guide**.
 
 # 📄 License
 
-Apache License 2.0
+Apache License 2.0  
+Copyright (c) 2025 Vijaya Anand Geddada
 
 ---
 
