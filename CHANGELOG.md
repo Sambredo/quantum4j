@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.3.1] - 2025-12-XX
+### Changed
+- Bumped artifact version to 1.3.1 for the upcoming release.
+- Consolidated examples into `src/main/java/io/quantum4j/examples` to avoid duplication.
+
 ## [1.2.0] - 2025-11-30
 ### Added
 - Transpiler framework:
