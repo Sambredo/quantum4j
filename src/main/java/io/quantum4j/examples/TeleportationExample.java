@@ -1,8 +1,8 @@
 package io.quantum4j.examples;
 
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
 import io.quantum4j.core.circuit.Instruction;
 import io.quantum4j.core.circuit.QuantumCircuit;
 import io.quantum4j.core.gates.SingleQubitGate;
@@ -45,7 +45,7 @@ public final class TeleportationExample {
             }
         }
 
-        Result result = new StateVectorBackend().run(circuit, RunOptions.shots(1000));
+        Result result = circuit.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(1000));
         System.out.println("\nCounts (1000 shots): " + result.getCounts());
     }
 

@@ -14,7 +14,7 @@ public class TestU1U2U3 {
                 .u1(0, Math.PI / 2)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         int count0 = r.getCounts().getOrDefault("0", 0);
         int count1 = r.getCounts().getOrDefault("1", 0);
 
@@ -28,7 +28,7 @@ public class TestU1U2U3 {
                 .u2(0, 0, Math.PI)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(300));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(300));
         assertTrue(r.getCounts().size() == 2);  // superposition
     }
 
@@ -39,7 +39,7 @@ public class TestU1U2U3 {
                 .u3(0, Math.PI / 2, 0, Math.PI)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(300));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(300));
 
         // Should produce both 0 and 1 outcomes
         assertTrue(r.getCounts().size() >= 1);

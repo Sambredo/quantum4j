@@ -1,5 +1,7 @@
 package io.quantum4j.core.backend;
 
+import io.quantum4j.core.backend.BackendType;
+
 import io.quantum4j.core.circuit.Instruction;
 import io.quantum4j.core.circuit.QuantumCircuit;
 import io.quantum4j.core.gates.Gate;
@@ -36,6 +38,8 @@ public final class StateVectorBackend implements Backend {
         StateVector baseState = new StateVector(nQubits);
 
         Map<String, Integer> counts = new HashMap<>();
+        boolean hasMeasurements = containsMeasurements(circuit);
+        StateVector finalState = null;
 
         for (int shot = 0; shot < options.getShots(); shot++) {
 
@@ -83,16 +87,17 @@ public final class StateVectorBackend implements Backend {
             // If circuit has explicit MEASURE instructions: use classical bits.
             // Otherwise measure all qubits at the end (backward compatibility).
             String outcome;
-            if (containsMeasurements(circuit)) {
+            if (hasMeasurements) {
                 outcome = buildClassicalString(classicalRegister);
             } else {
                 outcome = state.measureAll();
             }
 
             counts.merge(outcome, 1, Integer::sum);
+            finalState = state.copy();
         }
 
-        return new Result(counts);
+        return new Result(counts, BackendType.STATEVECTOR, finalState);
     }
 
     // --------------------------------------------------------------

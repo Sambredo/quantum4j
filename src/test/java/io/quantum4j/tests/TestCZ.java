@@ -11,7 +11,7 @@ public class TestCZ {
     public void testCZPhase() {
         QuantumCircuit qc = QuantumCircuit.create(2).x(0).x(1).cz(0, 1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         assertTrue(r.getCounts().containsKey("11"));
     }
 }

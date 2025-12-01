@@ -1,11 +1,11 @@
 package io.quantum4j.examples;
 
 import io.quantum4j.algorithms.QFT;
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
-import io.quantum4j.core.circuit.QuantumCircuit;
 import io.quantum4j.core.circuit.Instruction;
+import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Shows that applying QFT followed by inverse QFT returns the original basis state.
@@ -23,7 +23,7 @@ public final class InverseQFTDemo {
         }
         circuit.measureAll();
 
-        Result r = new StateVectorBackend().run(circuit, RunOptions.shots(200));
+        Result r = circuit.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         System.out.println("Counts after QFT + IQFT on |101>: " + r.getCounts());
     }
 }

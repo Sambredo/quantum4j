@@ -1,5 +1,8 @@
 package io.quantum4j.core.circuit;
 
+import io.quantum4j.core.backend.Backend;
+import io.quantum4j.core.backend.BackendFactory;
+import io.quantum4j.core.backend.RunOptions;
 import io.quantum4j.core.gates.Gate;
 import io.quantum4j.core.gates.StandardGates;
 
@@ -153,5 +156,19 @@ public final class QuantumCircuit {
     public QuantumCircuit u1(int qubit, double lambda) {
         instructions.add(Instruction.gate(new StandardGates.U1Gate(lambda), qubit));
         return this;
+    }
+
+    /**
+     * Execute this circuit with the given options using the configured backend.
+     *
+     * @param options execution options
+     * @return result of execution
+     */
+    public io.quantum4j.core.backend.Result run(RunOptions options) {
+        Backend backend = BackendFactory.get(options.getBackendType());
+        if (backend == null) {
+            throw new IllegalStateException("No backend registered for type " + options.getBackendType());
+        }
+        return backend.run(this, options);
     }
 }

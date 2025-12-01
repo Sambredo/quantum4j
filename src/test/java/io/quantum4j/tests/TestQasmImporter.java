@@ -85,8 +85,7 @@ public class TestQasmImporter {
         String qasm = QasmExporter.toQasm(original);
         QuantumCircuit imported = QasmImporter.fromQasm(qasm);
 
-        Backend backend = new StateVectorBackend();
-        Result r = backend.run(imported, RunOptions.shots(500));
+        Result r = imported.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(500));
 
         // Expect |00> and |11> only
         assertTrue(r.getCounts().containsKey("00"));

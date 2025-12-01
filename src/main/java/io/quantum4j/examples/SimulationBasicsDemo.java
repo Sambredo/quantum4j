@@ -1,8 +1,8 @@
 package io.quantum4j.examples;
 
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
 import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
@@ -15,7 +15,7 @@ public final class SimulationBasicsDemo {
                 .cx(0, 1)
                 .measureAll();
 
-        Result result = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result result = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         System.out.println("Counts for Bell state (approx. 50/50): " + result.getCounts());
     }
 }

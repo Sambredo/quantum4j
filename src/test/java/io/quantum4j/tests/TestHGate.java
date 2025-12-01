@@ -11,7 +11,7 @@ public class TestHGate {
     public void testHadamardCreatesSuperposition() {
         QuantumCircuit qc = QuantumCircuit.create(1).h(0).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(400));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(400));
 
         assertTrue(r.getCounts().containsKey("0"));
         assertTrue(r.getCounts().containsKey("1"));

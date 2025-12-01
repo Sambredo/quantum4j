@@ -11,7 +11,7 @@ public class TestXGate {
     public void testXonZero() {
         QuantumCircuit qc = QuantumCircuit.create(1).x(0).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         assertTrue(r.getCounts().containsKey("1"));
     }
 
@@ -19,7 +19,7 @@ public class TestXGate {
     public void testXonOne() {
         QuantumCircuit qc = QuantumCircuit.create(1).x(0).x(0).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         assertTrue(r.getCounts().containsKey("0"));
     }
 }

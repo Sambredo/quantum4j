@@ -8,12 +8,15 @@ package io.quantum4j.core.backend;
  * </p>
  */
 public final class RunOptions {
-    private final int shots;
+    private int shots;
+    private BackendType backendType = BackendType.STATEVECTOR;
 
     private RunOptions(int shots) {
-        if (shots <= 0)
-            throw new IllegalArgumentException("shots must be > 0");
-        this.shots = shots;
+        setShots(shots);
+    }
+
+    private RunOptions() {
+        this.shots = 1;
     }
 
     /**
@@ -32,11 +35,53 @@ public final class RunOptions {
     }
 
     /**
+     * Create RunOptions selecting a backend.
+     *
+     * @param type
+     *            backend type
+     *
+     * @return RunOptions configured with the given backend
+     */
+    public static RunOptions withBackend(BackendType type) {
+        RunOptions opt = new RunOptions();
+        opt.backendType = type;
+        return opt;
+    }
+
+    /**
      * Get the number of shots for this execution.
      *
      * @return the shot count
      */
     public int getShots() {
         return shots;
+    }
+
+    /**
+     * Set the number of shots for this execution.
+     *
+     * @param shots
+     *            number of repetitions (must be &gt; 0)
+     * @return this RunOptions for chaining
+     */
+    public RunOptions withShots(int shots) {
+        setShots(shots);
+        return this;
+    }
+
+    /**
+     * Get the backend type to use for execution.
+     *
+     * @return backend type
+     */
+    public BackendType getBackendType() {
+        return backendType;
+    }
+
+    private void setShots(int shots) {
+        if (shots <= 0) {
+            throw new IllegalArgumentException("shots must be > 0");
+        }
+        this.shots = shots;
     }
 }

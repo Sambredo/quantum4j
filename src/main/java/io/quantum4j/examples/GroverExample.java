@@ -1,8 +1,8 @@
 package io.quantum4j.examples;
 
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
 import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
@@ -28,7 +28,7 @@ public final class GroverExample {
                 .h(0).h(1)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(1000));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(1000));
         System.out.println("Grover counts (1000 shots): " + r.getCounts());
     }
 }

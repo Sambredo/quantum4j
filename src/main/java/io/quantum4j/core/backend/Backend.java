@@ -3,23 +3,19 @@ package io.quantum4j.core.backend;
 import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
- * Interface for quantum circuit execution backends.
+ * Abstraction for executing quantum circuits.
  * <p>
- * A Backend is responsible for simulating or executing a quantum circuit and returning measurement results.
- * Implementations may use different simulation strategies (state-vector, density matrix, etc.) or interface with real
- * quantum hardware.
+ * Implementations must be stateless and thread-safe.
  * </p>
  */
 public interface Backend {
+
     /**
-     * Execute a quantum circuit on this backend.
+     * Execute the given circuit with options.
      *
-     * @param circuit
-     *            the quantum circuit to execute
-     * @param options
-     *            execution options (e.g., number of shots)
-     *
-     * @return measurement results aggregated over all shots
+     * @param circuit circuit to run
+     * @param options execution options
+     * @return execution result
      */
     Result run(QuantumCircuit circuit, RunOptions options);
 }

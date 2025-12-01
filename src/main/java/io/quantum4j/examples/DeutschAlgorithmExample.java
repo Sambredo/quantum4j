@@ -1,8 +1,8 @@
 package io.quantum4j.examples;
 
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
 import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
@@ -40,7 +40,7 @@ public final class DeutschAlgorithmExample {
                     .measure(0, 0);
         }
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(1000));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(1000));
         System.out.println("Counts: " + r.getCounts());
     }
 }

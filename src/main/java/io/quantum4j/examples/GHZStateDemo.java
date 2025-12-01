@@ -1,8 +1,8 @@
 package io.quantum4j.examples;
 
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
 import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
@@ -16,7 +16,7 @@ public final class GHZStateDemo {
                 .cx(0, 2)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(400));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(400));
         System.out.println("GHZ counts (approx 50/50 000 and 111): " + r.getCounts());
     }
 }

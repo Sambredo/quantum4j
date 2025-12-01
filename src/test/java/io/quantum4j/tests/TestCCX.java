@@ -11,7 +11,7 @@ public class TestCCX {
     public void testCCXTriggersOnlyWhenBothControlsOne() {
         QuantumCircuit qc = QuantumCircuit.create(3).x(0).x(1).ccx(0, 1, 2).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         assertTrue(r.getCounts().containsKey("111"));
     }
@@ -20,7 +20,7 @@ public class TestCCX {
     public void testCCXDoesNotTriggerOtherwise() {
         QuantumCircuit qc = QuantumCircuit.create(3).x(0).ccx(0, 1, 2).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         assertTrue(r.getCounts().containsKey("100"));
     }

@@ -11,7 +11,7 @@ public class TestMeasurement {
     public void testMeasureOne() {
         QuantumCircuit qc = QuantumCircuit.create(1).x(0).measure(0, 0);
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         assertTrue(r.getCounts().containsKey("1"));
     }
@@ -20,7 +20,7 @@ public class TestMeasurement {
     public void testMeasureAll() {
         QuantumCircuit qc = QuantumCircuit.create(2).x(1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         assertTrue(r.getCounts().containsKey("01"));
     }

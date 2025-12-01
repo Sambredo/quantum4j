@@ -1,8 +1,8 @@
 package io.quantum4j.examples;
 
+import io.quantum4j.core.backend.BackendType;
 import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.StateVectorBackend;
 import io.quantum4j.core.circuit.QuantumCircuit;
 
 /**
@@ -24,7 +24,7 @@ public final class GateLibraryDemo {
                 .u3(2, Math.PI / 3, Math.PI / 5, Math.PI / 7)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
         System.out.println("Gate library demo counts: " + r.getCounts());
     }
 }

@@ -12,7 +12,7 @@ public class TestSWAP {
         // Prepare |01> => x(0)
         QuantumCircuit qc = QuantumCircuit.create(2).x(0).swap(0, 1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         System.out.println("SWAP 01->10 Counts = " + r.getCounts());
 
@@ -29,7 +29,7 @@ public class TestSWAP {
         // Prepare |10> => x(1)
         QuantumCircuit qc = QuantumCircuit.create(2).x(1).swap(0, 1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         System.out.println("SWAP 10->01 Counts = " + r.getCounts());
 

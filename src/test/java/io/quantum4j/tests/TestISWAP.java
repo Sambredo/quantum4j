@@ -11,7 +11,7 @@ public class TestISWAP {
     public void testISwapSwapsPopulation() {
         QuantumCircuit qc = QuantumCircuit.create(2).x(0).iswap(0, 1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         System.out.println("Counts = " + r.getCounts());
 

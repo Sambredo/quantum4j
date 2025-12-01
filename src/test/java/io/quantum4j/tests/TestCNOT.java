@@ -12,7 +12,7 @@ public class TestCNOT {
         QuantumCircuit qc = QuantumCircuit.create(2).x(0) // control = 1
                 .cx(0, 1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         assertTrue(r.getCounts().containsKey("11"));
     }
@@ -21,7 +21,7 @@ public class TestCNOT {
     public void testCNODOESNOTflipWhenControlZero() {
         QuantumCircuit qc = QuantumCircuit.create(2).cx(0, 1).measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(200));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
 
         assertTrue(r.getCounts().containsKey("00"));
     }

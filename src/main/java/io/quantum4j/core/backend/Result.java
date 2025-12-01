@@ -3,6 +3,8 @@ package io.quantum4j.core.backend;
 import java.util.Collections;
 import java.util.Map;
 
+import io.quantum4j.core.math.StateVector;
+
 /**
  * Immutable container for quantum circuit execution results.
  * <p>
@@ -12,6 +14,8 @@ import java.util.Map;
  */
 public final class Result {
     private final Map<String, Integer> counts;
+    private final BackendType backendType;
+    private final StateVector stateVector;
 
     /**
      * Construct a Result from measurement counts.
@@ -20,7 +24,23 @@ public final class Result {
      *            map of classical bit strings to outcome frequencies
      */
     public Result(Map<String, Integer> counts) {
+        this(counts, BackendType.STATEVECTOR, null);
+    }
+
+    /**
+     * Construct a Result from measurement counts and backend metadata.
+     *
+     * @param counts
+     *            map of classical bit strings to outcome frequencies
+     * @param backendType
+     *            backend that produced this result
+     * @param stateVector
+     *            optional final statevector (may be null)
+     */
+    public Result(Map<String, Integer> counts, BackendType backendType, StateVector stateVector) {
         this.counts = Collections.unmodifiableMap(counts);
+        this.backendType = backendType;
+        this.stateVector = stateVector;
     }
 
     /**
@@ -32,8 +52,26 @@ public final class Result {
         return counts;
     }
 
+    /**
+     * Get the backend type used for execution.
+     *
+     * @return backend type
+     */
+    public BackendType getBackendType() {
+        return backendType;
+    }
+
+    /**
+     * Get the final statevector, if available.
+     *
+     * @return statevector or null
+     */
+    public StateVector getStateVector() {
+        return stateVector;
+    }
+
     @Override
     public String toString() {
-        return "Result{counts=" + counts + '}';
+        return "Result{counts=" + counts + ", backend=" + backendType + '}';
     }
 }
