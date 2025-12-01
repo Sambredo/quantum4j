@@ -100,13 +100,13 @@ Includes reference circuits for:
 <dependency>
     <groupId>io.github.quantum4j</groupId>
     <artifactId>quantum4j</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 </dependency>
 ```
 
 ## Gradle
 ```gradle
-implementation 'io.quantum4j:quantum4j:1.3.0'
+implementation 'io.quantum4j:quantum4j:1.3.1'
 ```
 
 ## From Source
