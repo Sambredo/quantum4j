@@ -23,7 +23,11 @@ public final class BackendFactory {
      * @return backend instance or null if not registered
      */
     public static Backend get(BackendType type) {
-        return registry.get(type);
+        Backend backend = registry.get(type);
+        if (backend == null && type == BackendType.HARDWARE) {
+            throw new IllegalStateException("No hardware backend registered. Please call BackendFactory.register().");
+        }
+        return backend;
     }
 
     /**

@@ -314,3 +314,32 @@ Cloud-native • Microservices • Java • Spring • AI • Quantum
 If you find this useful:
 
 👉 https://github.com/quantum4j/quantum4j
+---
+
+# Running on Real Quantum Hardware
+Quantum4J supports pluggable backends. The default is STATEVECTOR simulation. To run on hardware (IonQ example):
+
+1) Register a hardware backend:
+`java
+BackendFactory.register(
+    BackendType.HARDWARE,
+    new IonQBackend(System.getenv("IONQ_API_KEY"))
+);
+`
+
+2) Execute using the hardware backend:
+`java
+Result r = circuit.run(RunOptions.withBackend(BackendType.HARDWARE).withShots(500));
+System.out.println(r.getCounts());
+`
+
+3) IonQ authentication
+- Set env var IONQ_API_KEY to your IonQ API key.
+- The backend submits OpenQASM 2.0 to IonQ's REST API.
+
+4) Cost and noise notice
+- Real hardware runs may incur cloud costs.
+- Hardware results are subject to device noise and queue times.
+
+5) Example
+- See io.quantum4j.examples.GroverHardwareExample for an end-to-end IonQ submission sample.
