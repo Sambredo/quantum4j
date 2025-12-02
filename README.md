@@ -35,7 +35,7 @@ Quantum4J instead focuses on **engineering requirements**:
 - Deterministic, testable simulation  
 - Clean modular API and package structure  
 - Version-controlled quantum circuits in normal code repos  
-- Backend-agnostic QASM export  
+- Backend-agnostic QASM export/import  
 - JVM-native integration (Java, Kotlin, Scala)  
 - Ready for microservices, cloud deployment, and CI/CD pipelines  
 - A foundation for future orchestration, debugging, and test frameworks
@@ -65,31 +65,29 @@ Quantum4J aims to become the **engineering layer** of the quantum software stack
 - Classical registers  
 - Deterministic or sampled measurement behavior
 
-## ✔ OpenQASM Exporter
-Export any circuit to **OpenQASM 2.0**:
+## ✔ OpenQASM Import/Export
+- Strict OpenQASM 2.0 importer (whitespace/comments tolerant)  
+- Deterministic OpenQASM 2.0 exporter  
+- Round-trip tests (import → export → import) for correctness
 
-```java
-String qasm = QasmExporter.toQasm(circuit);
-```
+## ✔ Transpiler & Optimizations
+- PassManager with composable passes  
+- Swap, CX→CZ, U3 decomposition  
+- Rotation fusion, CX cancellation, gate inversion, commutation  
+- Default transpiler pipeline for safe round-tripping
 
-## ✔ Extensible Architecture
-Create new gates with minimal boilerplate:
+## ✔ Extensible Backends (Pluggable)
+- Built-in: `STATEVECTOR` simulator  
+- Hardware hook via `BackendFactory` (IonQ example)  
+- Future-ready slots for density/stabilizer/GPU/hardware backends
 
-```java
-class MyGate extends SingleQubitGate {
-    // implement gate matrix and name
-}
-```
+## ✔ Circuit Visualization
+- ASCII renderer (deterministic, multi-qubit routing)  
+- SVG renderer for publication-quality diagrams
 
 ## ✔ Example Circuits + Test Suite
-Includes reference circuits for:
-
-- Bell state  
-- GHZ state  
-- Toffoli  
-- SWAP / iSWAP  
-- Rotation families  
-- And more  
+- Bell, GHZ, Toffoli, SWAP/iSWAP, rotations, QFT, Deutsch, Grover, teleportation  
+- Extensive JUnit 5 suite for gates, QASM, transpiler, visualization, backend layers
 
 ---
 
@@ -98,7 +96,7 @@ Includes reference circuits for:
 ## Maven (Maven Central)
 ```xml
 <dependency>
-    <groupId>io.github.quantum4j</groupId>
+    <groupId>com.quantum4j</groupId>
     <artifactId>quantum4j</artifactId>
     <version>1.3.1</version>
 </dependency>
@@ -106,12 +104,13 @@ Includes reference circuits for:
 
 ## Gradle
 ```gradle
-implementation 'io.quantum4j:quantum4j:1.3.1'
+implementation 'com.quantum4j:quantum4j:1.3.1'
 ```
 
 ## From Source
 ```bash
 git clone https://github.com/quantum4j/quantum4j.git
+mvn test
 ```
 
 ---
@@ -121,8 +120,8 @@ git clone https://github.com/quantum4j/quantum4j.git
 ### Create a Bell State
 
 ```java
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.backend.*;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.*;
 
 public class BellState {
     public static void main(String[] args) {
@@ -131,7 +130,7 @@ public class BellState {
                 .cx(0, 1)
                 .measureAll();
 
-        Result r = new StateVectorBackend().run(qc, RunOptions.shots(1000));
+        Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(1000));
         System.out.println(r.getCounts());
     }
 }
@@ -153,7 +152,7 @@ QuantumCircuit qc = QuantumCircuit.create(3)
     .ccx(0, 1, 2)
     .measureAll();
 
-Result r = backend.run(qc, RunOptions.shots(1000));
+Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(1000));
 System.out.println(r.getCounts());
 ```
 
@@ -177,7 +176,6 @@ System.out.println(qasm);
 ```
 
 Output:
-
 ```
 OPENQASM 2.0;
 include "qelib1.inc";
@@ -196,14 +194,10 @@ measure q[1] -> c[1];
 
 Quantum4J is designed to fit naturally into backend systems and microservices.
 
-Below is a minimal **Spring Boot** example:
-
 ```java
 @RestController
 @RequestMapping("/api/quantum")
 public class QuantumController {
-
-    private final StateVectorBackend backend = new StateVectorBackend();
 
     @GetMapping("/bell")
     public Map<String, Integer> bell() {
@@ -212,30 +206,10 @@ public class QuantumController {
                 .cx(0, 1)
                 .measureAll();
 
-        Result result = backend.run(qc, RunOptions.shots(1000));
+        Result result = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(1000));
         return result.getCounts();
     }
 }
-```
-
----
-
-# 🏗 Reference Architecture (Microservice)
-
-```text
-[Client / UI / Mobile]
-            |
-            |  REST
-            v
-   [Spring Boot Service]
-            |
-            |  Java API Calls
-            v
-      [Quantum4J Core]
-            |
-            |  QASM / Simulator API
-            v
-[Execution Layer: Local Sim, Cloud Sim, Hardware (future)]
 ```
 
 ---
@@ -247,8 +221,10 @@ public class QuantumController {
 | `circuit/` | Circuit objects, instructions, fluent builder     |
 | `gates/`   | Gate definitions (1, 2, 3 qubit)                  |
 | `math/`    | Complex arithmetic + state-vector implementation  |
-| `backend/` | Execution backend (statevector simulator)         |
-| `qasm/`    | QASM exporter                                     |
+| `backend/` | Execution backend (statevector + pluggable HW)    |
+| `qasm/`    | QASM importer/exporter                            |
+| `visualization/` | ASCII + SVG circuit rendering               |
+| `transpile/` | PassManager + decomposition/optimization passes |
 | `examples/`| Ready-to-run examples                             |
 | `tests/`   | JUnit 5 test suite                                |
 
@@ -265,26 +241,24 @@ mvn test
 
 # ⚡ Performance Notes
 
-25 qubits is the upper bound on typical JVM memory.
+25 qubits is the upper bound on typical JVM memory for the statevector backend.
 
 ---
 
 # 🗺️ Roadmap
 
-- U3/UGate  
-- Controlled rotations  
-- Grover's algorithm  
-- Noise models  
-- Density matrices  
-- Hardware provider API  
-- Cloud execution  
+- Noise models & density matrix backend  
+- Stabilizer backend  
+- GPU/offloaded simulation  
+- Additional compiler passes and schedulers  
+- Expanded hardware connectors (IBM, Braket, Rigetti)  
+- Cloud execution services  
 
 ---
 
 # 🧑‍💻 Contributing
 
 We welcome:
-
 - Pull requests  
 - Issue reports  
 - New gate implementations  
@@ -307,10 +281,43 @@ Copyright (c) 2025 Vijaya Anand Geddada
 **Vijay Anand Geddada**  
 Creator – Quantum4J, mainMethod  
 20+ years enterprise engineering leadership  
-Cloud-native • Microservices • Java • Spring • AI • Quantum
+Cloud-native • Microservices • Java • Spring • Quantum
+
 # ⭐ Star the Repo
 
----
-If you find this useful:
+If you find this useful: https://github.com/quantum4j/quantum4j
 
-👉 https://github.com/quantum4j/quantum4j
+---
+
+# Running on Real Quantum Hardware
+
+Quantum4J supports pluggable backends. The default is STATEVECTOR simulation. To run on hardware (IonQ example):
+
+1) Register a hardware backend:
+```java
+BackendFactory.register(
+    BackendType.HARDWARE,
+    new IonQBackend(System.getenv("IONQ_API_KEY"))
+);
+```
+
+2) Execute using the hardware backend:
+```java
+Result r = circuit.run(RunOptions.withBackend(BackendType.HARDWARE).withShots(500));
+System.out.println(r.getCounts());
+```
+
+3) IonQ authentication
+- Set env var `IONQ_API_KEY` to your IonQ API key.
+- The backend submits OpenQASM 2.0 to IonQ's REST API.
+
+4) Cost and noise notice
+- Real hardware runs may incur cloud costs.
+- Hardware results are subject to device noise and queue times.
+
+5) Example
+- See `com.quantum4j.examples.GroverHardwareExample` for an end-to-end IonQ submission sample.
+
+## Feature Highlights (recap)
+- OpenQASM 2.0 import/export (strict importer, deterministic exporter).
+- Pluggable backends: STATEVECTOR simulator built-in; optional hardware via BackendFactory (IonQ example).

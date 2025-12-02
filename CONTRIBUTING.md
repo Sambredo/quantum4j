@@ -23,7 +23,7 @@ Thanks for helping improve Quantum4J. This project aims to be the JVM-native, Qi
 - Update `README.md` and `CHANGELOG.md` when user-facing changes occur.
 
 ## Testing
-- Unit tests live under `src/test/java/io/quantum4j/tests`.
+-- Unit tests live under `src/test/java/com/quantum4j/tests`.
 - Add focused tests for new gates, passes, import/export paths, and regressions.
 - For new transpiler passes, include both positive and negative/edge test cases.
 
@@ -43,3 +43,5 @@ By participating, you agree to abide by the Code of Conduct (see `CODE_OF_CONDUC
 
 ## Security
 If you believe you have found a security issue, please follow `SECURITY.md` and do **not** open a public issue with sensitive details.
+
+

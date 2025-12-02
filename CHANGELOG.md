@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [1.3.1] - 2025-12-XX
 ### Changed
 - Bumped artifact version to 1.3.1 for the upcoming release.
-- Consolidated examples into `src/main/java/io/quantum4j/examples` to avoid duplication.
+- Consolidated examples into `src/main/java/com/quantum4j/examples` to avoid duplication.
 
 ## [1.2.0] - 2025-11-30
 ### Added
@@ -131,7 +131,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Transpiler passes: `GateCommutationPass`, `GateInversionPass`, `RotationFusionPass`, `SwapDecompositionPass`, `CXCancellationPass`, `U3DecompositionPass`.
 - QASM: expanded compliance/round-trip tests and QASM demos (export, import, errors, transpiler).
 - Algorithms: Quantum Fourier Transform (QFT) and inverse QFT circuits, demos, and tests.
-- Examples: unified examples under `io.quantum4j.examples`, including commutation and QASM demos.
+- Examples: unified examples under `com.quantum4j.examples`, including commutation and QASM demos.
 
 ### Changed
 - Default transpiler pipeline now includes U3 decomposition before rotation fusion.
@@ -168,3 +168,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - Fixed gate ordering in decomposition passes to match expected unitary behavior.
 - Javadoc / doclint:
   - Resolved blocking doclint issues and improved Javadoc on transpiler APIs.
+
+
