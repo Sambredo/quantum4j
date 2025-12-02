@@ -8,7 +8,6 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiFunction;
 
 /**
  * Minimal HTTP helper for hardware backends.
@@ -16,7 +15,12 @@ import java.util.function.BiFunction;
 public final class HardwareBackendHttpClient {
 
     private static final HttpClient CLIENT = HttpClient.newHttpClient();
-    private static volatile BiFunction<String, Map<String, String>, String> mockResponder = null;
+    @FunctionalInterface
+    public interface MockResponder {
+        String respond(String method, String url, String body, Map<String, String> headers);
+    }
+
+    private static volatile MockResponder mockResponder = null;
 
     private HardwareBackendHttpClient() {
     }
@@ -24,7 +28,7 @@ public final class HardwareBackendHttpClient {
     /**
      * Install a mock responder (for tests). Pass {@code null} to clear.
      */
-    public static void setMockResponder(BiFunction<String, Map<String, String>, String> responder) {
+    public static void setMockResponder(MockResponder responder) {
         mockResponder = responder;
     }
 
@@ -32,9 +36,20 @@ public final class HardwareBackendHttpClient {
      * POST JSON with headers, retrying up to 3 attempts with backoff.
      */
     public static String postJson(String url, String json, Map<String, String> headers) {
-        BiFunction<String, Map<String, String>, String> mock = mockResponder;
+        return send("POST", url, json, headers);
+    }
+
+    /**
+     * GET JSON with headers, retrying up to 3 attempts with backoff.
+     */
+    public static String getJson(String url, Map<String, String> headers) {
+        return send("GET", url, null, headers);
+    }
+
+    private static String send(String method, String url, String body, Map<String, String> headers) {
+        MockResponder mock = mockResponder;
         if (mock != null) {
-            return mock.apply(url, headers);
+            return mock.respond(method, url, body, headers);
         }
 
         Map<String, String> safeHeaders = headers == null ? new ConcurrentHashMap<>() : headers;
@@ -45,12 +60,17 @@ public final class HardwareBackendHttpClient {
             try {
                 HttpRequest.Builder builder = HttpRequest.newBuilder()
                         .uri(URI.create(url))
-                        .timeout(Duration.ofSeconds(10))
-                        .header("Content-Type", "application/json");
+                        .timeout(Duration.ofSeconds(10));
                 for (Map.Entry<String, String> e : safeHeaders.entrySet()) {
                     builder.header(e.getKey(), e.getValue());
                 }
-                HttpRequest request = builder.POST(HttpRequest.BodyPublishers.ofString(json)).build();
+                if ("POST".equalsIgnoreCase(method)) {
+                    builder.header("Content-Type", "application/json");
+                    builder.POST(HttpRequest.BodyPublishers.ofString(body == null ? "" : body));
+                } else {
+                    builder.GET();
+                }
+                HttpRequest request = builder.build();
                 HttpResponse<String> response = CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
                 int code = response.statusCode();
                 if (code >= 200 && code < 300) {
@@ -59,7 +79,7 @@ public final class HardwareBackendHttpClient {
                 throw new IOException("HTTP " + code + ": " + response.body());
             } catch (IOException | InterruptedException ex) {
                 if (attempts >= 3) {
-                    throw new RuntimeException("HTTP POST failed after retries: " + ex.getMessage(), ex);
+                    throw new RuntimeException("HTTP " + method + " failed after retries: " + ex.getMessage(), ex);
                 }
                 try {
                     Thread.sleep(backoff);

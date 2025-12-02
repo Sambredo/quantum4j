@@ -24,11 +24,15 @@ class IonQBackendTest {
     @Test
     void parsesCompletedResults() {
         AtomicInteger call = new AtomicInteger(0);
-        HardwareBackendHttpClient.setMockResponder((url, headers) -> {
-            if (call.getAndIncrement() == 0) {
+        HardwareBackendHttpClient.setMockResponder((method, url, body, headers) -> {
+            int c = call.getAndIncrement();
+            if (c == 0) {
+                assertEquals("POST", method);
                 return "{\"id\":\"job1\",\"status\":\"running\"}";
+            } else {
+                assertEquals("GET", method);
+                return "{\"id\":\"job1\",\"status\":\"completed\",\"results\":{\"11\":97,\"00\":3}}";
             }
-            return "{\"id\":\"job1\",\"status\":\"completed\",\"results\":{\"11\":97,\"00\":3}}";
         });
 
         QuantumCircuit qc = QuantumCircuit.create(1).h(0).measureAll();
@@ -39,5 +43,33 @@ class IonQBackendTest {
         assertEquals(97, r.getCounts().get("11"));
         assertEquals(3, r.getCounts().get("00"));
         assertEquals(BackendType.HARDWARE, r.getBackendType());
+    }
+
+    @Test
+    void failsWhenStuckRunning() {
+        HardwareBackendHttpClient.setMockResponder((method, url, body, headers) -> "{\"id\":\"job1\",\"status\":\"running\"}");
+
+        QuantumCircuit qc = QuantumCircuit.create(1).h(0).measureAll();
+        IonQBackend backend = new IonQBackend("dummy", 2, 0);
+        RuntimeException ex = assertThrows(RuntimeException.class,
+                () -> backend.run(qc, RunOptions.withBackend(BackendType.HARDWARE).withShots(10)));
+        assertTrue(ex.getMessage().contains("did not complete"));
+    }
+
+    @Test
+    void failsWhenStatusFailed() {
+        AtomicInteger call = new AtomicInteger(0);
+        HardwareBackendHttpClient.setMockResponder((method, url, body, headers) -> {
+            if (call.getAndIncrement() == 0) {
+                return "{\"id\":\"job1\",\"status\":\"running\"}";
+            }
+            return "{\"id\":\"job1\",\"status\":\"failed\"}";
+        });
+
+        QuantumCircuit qc = QuantumCircuit.create(1).h(0).measureAll();
+        IonQBackend backend = new IonQBackend("dummy", 3, 0);
+        RuntimeException ex = assertThrows(RuntimeException.class,
+                () -> backend.run(qc, RunOptions.withBackend(BackendType.HARDWARE).withShots(10)));
+        assertTrue(ex.getMessage().contains("failed"));
     }
 }

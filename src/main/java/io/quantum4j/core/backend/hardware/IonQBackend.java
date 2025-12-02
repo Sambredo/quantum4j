@@ -9,6 +9,7 @@ import io.quantum4j.qasm.QasmExporter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * IonQ hardware backend using OpenQASM 2.0 submission.
@@ -16,12 +17,20 @@ import java.util.Map;
 public final class IonQBackend implements HardwareBackend {
     private static final String JOB_URL = "https://api.ionq.co/v0.3/jobs";
     private final String apiKey;
+    private final int maxPollAttempts;
+    private final long pollSleepMillis;
 
     public IonQBackend(String apiKey) {
+        this(apiKey, 10, 500);
+    }
+
+    public IonQBackend(String apiKey, int maxPollAttempts, long pollSleepMillis) {
         if (apiKey == null || apiKey.isBlank()) {
             throw new IllegalArgumentException("apiKey must not be null/blank");
         }
         this.apiKey = apiKey;
+        this.maxPollAttempts = maxPollAttempts;
+        this.pollSleepMillis = pollSleepMillis;
     }
 
     @Override
@@ -48,17 +57,21 @@ public final class IonQBackend implements HardwareBackend {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", "apiKey " + apiKey);
         String createResp = HardwareBackendHttpClient.postJson(JOB_URL, payload, headers);
-        String jobId = parseField(createResp, "id");
-        String status = parseField(createResp, "status");
+        String jobId = parseStringField(createResp, "id");
+        String status = parseStringField(createResp, "status");
         String pollResp = createResp;
         int attempts = 0;
-        while (!"completed".equalsIgnoreCase(status) && attempts < 5) {
+        while (!"completed".equalsIgnoreCase(status) && attempts < maxPollAttempts) {
             attempts++;
-            pollResp = HardwareBackendHttpClient.postJson(JOB_URL + "/" + jobId, payload, headers);
-            status = parseField(pollResp, "status");
+            sleepQuietly(pollSleepMillis);
+            pollResp = HardwareBackendHttpClient.getJson(JOB_URL + "/" + jobId, headers);
+            status = parseStringField(pollResp, "status");
+            if ("failed".equalsIgnoreCase(status) || "canceled".equalsIgnoreCase(status)) {
+                throw new RuntimeException("IonQ job " + jobId + " ended with status=" + status);
+            }
         }
         if (!"completed".equalsIgnoreCase(status)) {
-            throw new RuntimeException("IonQ job did not complete; last status=" + status);
+            throw new RuntimeException("IonQ job did not complete within attempts; jobId=" + jobId + ", last status=" + status);
         }
         return parseVendorResult(pollResp);
     }
@@ -69,41 +82,73 @@ public final class IonQBackend implements HardwareBackend {
 
     private Map<String, Integer> extractCounts(String json) {
         Map<String, Integer> counts = new HashMap<>();
-        int idx = json.indexOf("\"results\"");
-        if (idx < 0) {
+        int resultsIdx = json.indexOf("\"results\"");
+        if (resultsIdx < 0) {
             return counts;
         }
-        int brace = json.indexOf('{', idx);
-        int end = json.indexOf('}', brace);
-        if (brace < 0 || end < 0) {
+        int objStart = json.indexOf('{', resultsIdx);
+        int objEnd = findMatchingBrace(json, objStart);
+        if (objStart < 0 || objEnd < 0) {
             return counts;
         }
-        String body = json.substring(brace + 1, end);
+        String body = json.substring(objStart + 1, objEnd).trim();
+        if (body.isEmpty()) {
+            return counts;
+        }
         String[] entries = body.split(",");
         for (String e : entries) {
             String[] kv = e.split(":");
             if (kv.length == 2) {
-                String key = kv[0].trim().replace("\"", "");
+                String key = stripQuotes(kv[0].trim());
+                double val;
                 try {
-                    int val = (int) Double.parseDouble(kv[1].trim());
-                    counts.put(key, val);
-                } catch (NumberFormatException ignored) {
+                    val = Double.parseDouble(kv[1].trim());
+                } catch (NumberFormatException ex) {
+                    continue;
                 }
+                counts.put(key, (int) Math.round(val));
             }
         }
         return counts;
     }
 
-    private String parseField(String json, String field) {
+    private String parseStringField(String json, String field) {
         String needle = "\"" + field + "\"";
         int idx = json.indexOf(needle);
         if (idx < 0) return "";
         int colon = json.indexOf(':', idx);
-        int startQuote = json.indexOf('"', colon + 1);
-        int endQuote = json.indexOf('"', startQuote + 1);
-        if (startQuote < 0 || endQuote < 0) {
-            return "";
+        if (colon < 0) return "";
+        int firstQuote = json.indexOf('"', colon + 1);
+        int secondQuote = json.indexOf('"', firstQuote + 1);
+        if (firstQuote < 0 || secondQuote < 0) return "";
+        return json.substring(firstQuote + 1, secondQuote);
+    }
+
+    private int findMatchingBrace(String s, int start) {
+        int depth = 0;
+        for (int i = start; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '{') depth++;
+            if (c == '}') {
+                depth--;
+                if (depth == 0) return i;
+            }
         }
-        return json.substring(startQuote + 1, endQuote);
+        return -1;
+    }
+
+    private String stripQuotes(String s) {
+        if (s.startsWith("\"") && s.endsWith("\"") && s.length() >= 2) {
+            return s.substring(1, s.length() - 1);
+        }
+        return s;
+    }
+
+    private void sleepQuietly(long millis) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(millis);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

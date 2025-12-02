@@ -5,7 +5,12 @@ import io.quantum4j.core.backend.Result;
 import io.quantum4j.core.backend.RunOptions;
 
 /**
- * Marker interface for hardware backends.
+ * Hardware backend abstraction. Implementations submit circuits to vendor hardware services using OpenQASM 2.0.
+ * <p>
+ * Implementations must not mutate the provided {@link io.quantum4j.core.circuit.QuantumCircuit}; if transformation is
+ * required, clone the circuit first. Each backend is responsible for packaging QASM into a vendor payload, submitting
+ * jobs, polling results, and parsing vendor JSON into a {@link Result}.
+ * </p>
  */
 public interface HardwareBackend extends Backend {
     /**
