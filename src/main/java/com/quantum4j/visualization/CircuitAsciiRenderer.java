@@ -5,160 +5,142 @@ import com.quantum4j.core.circuit.QuantumCircuit;
 import com.quantum4j.core.gates.Gate;
 import com.quantum4j.core.gates.StandardGates;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ASCII renderer using a simple grid-based layout. Only ASCII characters are used to avoid placeholder issues.
+ * Deterministic ASCII renderer with raw (ASCII-safe) and pretty (Unicode) modes.
  */
 public final class CircuitAsciiRenderer {
-
-    private static final int CELL_WIDTH = 8; // fixed width per instruction column
+    private static final int MIN_CELL_WIDTH = 7;
 
     private CircuitAsciiRenderer() {
     }
 
     public static String render(QuantumCircuit circuit) {
+        return render(circuit, false);
+    }
+
+    public static String render(QuantumCircuit circuit, boolean pretty) {
         int qCount = circuit.getNumQubits();
+        List<Instruction> instructions = circuit.getInstructions();
         List<StringBuilder> rows = new ArrayList<>(qCount);
         for (int q = 0; q < qCount; q++) {
             rows.add(new StringBuilder("q" + q + " "));
         }
 
-        for (Instruction inst : circuit.getInstructions()) {
-            List<String> column = new ArrayList<>(qCount);
-            for (int i = 0; i < qCount; i++) {
-                column.add(repeat('-', CELL_WIDTH));
+        char wire = pretty ? '─' : '-';
+        char vert = pretty ? '│' : '|';
+        char ctrl = pretty ? '●' : '@';
+        char targ = pretty ? '⊕' : '+';
+        char swap = pretty ? '×' : 'x';
+
+        for (Instruction inst : instructions) {
+            int width = columnWidth(inst);
+            char[][] col = new char[qCount][width];
+            for (int r = 0; r < qCount; r++) {
+                for (int c = 0; c < width; c++) col[r][c] = wire;
             }
 
             if (inst.getType() == Instruction.Type.GATE) {
                 Gate g = inst.getGate();
-                int[] qs = inst.getQubits();
-                if (g instanceof StandardGates.CNOTGate || g instanceof StandardGates.CZGate
-                        || g instanceof StandardGates.SWAPGate) {
-                    drawTwoQubitGate(column, g, qs[0], qs[1]);
+                if (g instanceof StandardGates.CNOTGate) {
+                    int c = inst.getQubits()[0], t = inst.getQubits()[1];
+                    placeControlTarget(col, c, t, ctrl, targ, vert);
+                } else if (g instanceof StandardGates.CZGate) {
+                    int c = inst.getQubits()[0], t = inst.getQubits()[1];
+                    placeControlBox(col, c, t, "Z", ctrl, vert);
+                } else if (g instanceof StandardGates.SWAPGate) {
+                    int q1 = inst.getQubits()[0], q2 = inst.getQubits()[1];
+                    placeSwap(col, q1, q2, swap, vert);
                 } else if (g instanceof StandardGates.CCXGate) {
-                    drawCCX(column, qs[0], qs[1], qs[2]);
+                    int c1 = inst.getQubits()[0], c2 = inst.getQubits()[1], t = inst.getQubits()[2];
+                    placeToffoli(col, c1, c2, t, ctrl, targ, vert);
                 } else {
-                    column.set(qs[0], gateBox(GateSymbol.label(g)));
+                    placeBox(col, inst.getQubits()[0], GateSymbol.shortLabel(g));
                 }
             } else if (inst.getType() == Instruction.Type.MEASURE) {
-                int q = inst.getQubits()[0];
-                column.set(q, gateBox("M"));
+                placeBox(col, inst.getQubits()[0], "M");
             }
 
-            for (int q = 0; q < qCount; q++) {
-                rows.get(q).append(column.get(q));
-            }
+            for (int r = 0; r < qCount; r++) rows.get(r).append(col[r]);
         }
 
         StringBuilder out = new StringBuilder();
-        for (int i = 0; i < rows.size(); i++) {
-            out.append(rows.get(i));
-            if (i < rows.size() - 1) {
-                out.append(System.lineSeparator());
-            }
+        for (int r = 0; r < rows.size(); r++) {
+            out.append(rows.get(r));
+            if (r < rows.size() - 1) out.append(System.lineSeparator());
         }
         return out.toString();
     }
 
-    private static void drawTwoQubitGate(List<String> col, Gate g, int c, int t) {
-        int min = Math.min(c, t);
-        int max = Math.max(c, t);
-        for (int q = min + 1; q < max; q++) {
-            col.set(q, vertical());
-        }
-        if (g instanceof StandardGates.CNOTGate) {
-            col.set(c, controlCell());
-            col.set(t, gateBox("X"));
-        } else if (g instanceof StandardGates.CZGate) {
-            col.set(c, controlCell());
-            col.set(t, gateBox("Z"));
-        } else { // SWAP
-            col.set(c, addVertical(swapCell()));
-            col.set(t, addVertical(swapCell()));
-            for (int q = min + 1; q < max; q++) {
-                col.set(q, vertical());
+    public static void writeToFile(QuantumCircuit circuit, Path asciiPath, boolean pretty) throws IOException {
+        Files.createDirectories(asciiPath.getParent());
+        Files.writeString(asciiPath, render(circuit, pretty));
+    }
+
+    private static int columnWidth(Instruction inst) {
+        if (inst.getType() == Instruction.Type.GATE) {
+            Gate g = inst.getGate();
+            if (g instanceof StandardGates.CNOTGate || g instanceof StandardGates.CZGate
+                    || g instanceof StandardGates.SWAPGate || g instanceof StandardGates.CCXGate) {
+                return MIN_CELL_WIDTH;
             }
+            String label = GateSymbol.shortLabel(g);
+            return Math.max(MIN_CELL_WIDTH, label.length() + 4);
+        } else if (inst.getType() == Instruction.Type.MEASURE) {
+            return MIN_CELL_WIDTH;
         }
-        // ensure vertical bar visible even when adjacent
-        if (max - min == 1) {
-            if (!(g instanceof StandardGates.SWAPGate)) {
-                col.set(min, addVertical(col.get(min)));
-                col.set(max, addVertical(col.get(max)));
-            }
+        return MIN_CELL_WIDTH;
+    }
+
+    private static void placeBox(char[][] col, int qubit, String label) {
+        String box = "[" + label + "]";
+        int width = col[0].length;
+        int start = Math.max(0, (width - box.length()) / 2);
+        for (int i = 0; i < box.length() && start + i < width; i++) {
+            col[qubit][start + i] = box.charAt(i);
         }
     }
 
-    private static void drawCCX(List<String> col, int c1, int c2, int t) {
-        int min = Math.min(Math.min(c1, c2), t);
-        int max = Math.max(Math.max(c1, c2), t);
+    private static void placeControlTarget(char[][] col, int control, int target, char ctrl, char targ, char vert) {
+        int center = col[0].length / 2;
+        col[control][center] = ctrl;
+        col[target][center] = targ;
+        connect(col, control, target, center, vert);
+    }
+
+    private static void placeControlBox(char[][] col, int control, int target, String label, char ctrl, char vert) {
+        int center = col[0].length / 2;
+        col[control][center] = ctrl;
+        placeBox(col, target, label);
+        connect(col, control, target, center, vert);
+    }
+
+    private static void placeSwap(char[][] col, int q1, int q2, char swapChar, char vert) {
+        int center = col[0].length / 2;
+        col[q1][center] = swapChar;
+        col[q2][center] = swapChar;
+        connect(col, q1, q2, center, vert);
+    }
+
+    private static void placeToffoli(char[][] col, int c1, int c2, int target, char ctrl, char targ, char vert) {
+        int center = col[0].length / 2;
+        col[c1][center] = ctrl;
+        col[c2][center] = ctrl;
+        col[target][center] = targ;
+        connect(col, c1, target, center, vert);
+        connect(col, c2, target, center, vert);
+    }
+
+    private static void connect(char[][] col, int q1, int q2, int center, char vert) {
+        int min = Math.min(q1, q2);
+        int max = Math.max(q1, q2);
         for (int q = min + 1; q < max; q++) {
-            col.set(q, vertical());
+            col[q][center] = vert;
         }
-        col.set(c1, controlCell());
-        col.set(c2, controlCell());
-        col.set(t, gateBox("X"));
-        if (max - min == 2) {
-            col.set(min, addVertical(col.get(min)));
-            col.set(max, addVertical(col.get(max)));
-        }
-    }
-
-    private static String gateBox(String label) {
-        String inner = padCenter(label, CELL_WIDTH - 4);
-        return "--[" + inner + "]";
-    }
-
-    private static String padCenter(String s, int len) {
-        if (s.length() >= len) {
-            return s.substring(0, len);
-        }
-        int left = (len - s.length()) / 2;
-        int right = len - s.length() - left;
-        return repeat(' ', left) + s + repeat(' ', right);
-    }
-
-    private static String vertical() {
-        char[] arr = repeat('-', CELL_WIDTH).toCharArray();
-        arr[CELL_WIDTH / 2] = '|';
-        return new String(arr);
-    }
-
-    private static String controlCell() {
-        char[] arr = repeat('-', CELL_WIDTH).toCharArray();
-        int idx = CELL_WIDTH / 2;
-        arr[idx] = 'o';
-        if (idx > 0) arr[idx - 1] = '|';
-        if (idx < CELL_WIDTH - 1) arr[idx + 1] = '|';
-        return new String(arr);
-    }
-
-    private static String swapCell() {
-        char[] arr = repeat('-', CELL_WIDTH).toCharArray();
-        int idx = CELL_WIDTH / 2;
-        arr[idx] = 'x';
-        return new String(arr);
-    }
-
-    private static String addVertical(String s) {
-        char[] arr = s.toCharArray();
-        int idx = CELL_WIDTH / 2;
-        if (arr[idx] == '-') {
-            arr[idx] = '|';
-        } else if (idx > 0 && arr[idx - 1] == '-') {
-            arr[idx - 1] = '|';
-        } else if (idx < arr.length - 1 && arr[idx + 1] == '-') {
-            arr[idx + 1] = '|';
-        }
-        return new String(arr);
-    }
-
-    private static String repeat(char c, int n) {
-        StringBuilder sb = new StringBuilder(n);
-        for (int i = 0; i < n; i++) {
-            sb.append(c);
-        }
-        return sb.toString();
     }
 }

@@ -6,14 +6,15 @@ import com.quantum4j.core.gates.Gate;
 import com.quantum4j.core.gates.StandardGates;
 
 /**
- * SVG renderer for QuantumCircuit.
+ * SVG renderer with dynamic gate box widths and short labels (tooltips carry full params).
  */
 public final class CircuitSvgRenderer {
     private static final int WIRE_SPACING = 40;
     private static final int COLUMN_SPACING = 70;
-    private static final int GATE_W = 40;
+    private static final int MIN_GATE_W = 40;
     private static final int GATE_H = 30;
     private static final int MARGIN = 20;
+    private static final int CHAR_W = 7; // crude text width approximation
 
     private CircuitSvgRenderer() {
     }
@@ -54,27 +55,40 @@ public final class CircuitSvgRenderer {
                     sb.append("<line class=\"wire\" x1=\"").append(xCenter).append("\" y1=\"").append(y1)
                             .append("\" x2=\"").append(xCenter).append("\" y2=\"").append(y2).append("\" />");
                     if (g instanceof StandardGates.CNOTGate) {
-                        sb.append("<circle cx=\"").append(xCenter).append("\" cy=\"").append(yC)
-                                .append("\" r=\"5\" fill=\"black\" />");
+                        filledCircle(sb, xCenter, yC);
                         drawX(sb, xCenter, yT);
                     } else if (g instanceof StandardGates.CZGate) {
-                        sb.append("<circle cx=\"").append(xCenter).append("\" cy=\"").append(yC)
-                                .append("\" r=\"5\" fill=\"black\" />");
-                        drawGateBox(sb, xCenter, yT, "Z");
+                        filledCircle(sb, xCenter, yC);
+                        drawGateBox(sb, xCenter, yT, "Z", null);
                     } else { // swap
-                        drawSwap(sb, xCenter, yC);
-                        drawSwap(sb, xCenter, yT);
+                        drawSwapCircle(sb, xCenter, yC);
+                        drawSwapCircle(sb, xCenter, yT);
                     }
+                } else if (g instanceof StandardGates.CCXGate) {
+                    int c1 = qs[0];
+                    int c2 = qs[1];
+                    int t = qs[2];
+                    int y1 = MARGIN + c1 * WIRE_SPACING;
+                    int y2 = MARGIN + c2 * WIRE_SPACING;
+                    int yT = MARGIN + t * WIRE_SPACING;
+                    int yMin = Math.min(Math.min(y1, y2), yT);
+                    int yMax = Math.max(Math.max(y1, y2), yT);
+                    sb.append("<line class=\"wire\" x1=\"").append(xCenter).append("\" y1=\"").append(yMin)
+                            .append("\" x2=\"").append(xCenter).append("\" y2=\"").append(yMax).append("\" />");
+                    filledCircle(sb, xCenter, y1);
+                    filledCircle(sb, xCenter, y2);
+                    drawX(sb, xCenter, yT);
                 } else {
                     int q = qs[0];
                     int y = MARGIN + q * WIRE_SPACING;
-                    String label = GateSymbol.label(g);
-                    drawGateBox(sb, xCenter, y, label);
+                    String label = GateSymbol.shortLabel(g);
+                    String tooltip = GateSymbol.fullLabel(g);
+                    drawGateBox(sb, xCenter, y, label, tooltip);
                 }
             } else if (inst.getType() == Instruction.Type.MEASURE) {
                 int q = inst.getQubits()[0];
                 int y = MARGIN + q * WIRE_SPACING;
-                drawGateBox(sb, xCenter, y, "M");
+                drawGateBox(sb, xCenter, y, "M", "Measurement");
             }
             colIdx++;
         }
@@ -83,36 +97,60 @@ public final class CircuitSvgRenderer {
         return sb.toString();
     }
 
-    private static void drawGateBox(StringBuilder sb, int xCenter, int yCenter, String label) {
-        int x = xCenter - GATE_W / 2;
+    public static void writeToFile(QuantumCircuit circuit, java.nio.file.Path svgPath) throws java.io.IOException {
+        java.nio.file.Files.createDirectories(svgPath.getParent());
+        java.nio.file.Files.writeString(svgPath, render(circuit));
+    }
+
+    private static int computeGateWidth(String label) {
+        int estimate = label.length() * CHAR_W + 20;
+        return Math.max(MIN_GATE_W, estimate);
+    }
+
+    private static void drawGateBox(StringBuilder sb, int xCenter, int yCenter, String label, String tooltip) {
+        int w = computeGateWidth(label);
+        int x = xCenter - w / 2;
         int y = yCenter - GATE_H / 2;
+        sb.append("<g>");
+        if (tooltip != null) {
+            sb.append("<title>").append(escape(tooltip)).append("</title>");
+        }
         sb.append("<rect class=\"gate\" x=\"").append(x).append("\" y=\"").append(y).append("\" width=\"")
-                .append(GATE_W).append("\" height=\"").append(GATE_H).append("\" rx=\"4\" />");
+                .append(w).append("\" height=\"").append(GATE_H).append("\" rx=\"4\" />");
         sb.append("<text class=\"text\" x=\"").append(xCenter).append("\" y=\"").append(yCenter).append("\">")
                 .append(escape(label)).append("</text>");
+        sb.append("</g>");
     }
 
     private static void drawX(StringBuilder sb, int xCenter, int yCenter) {
         int r = 10;
+        sb.append("<g>");
         sb.append("<circle cx=\"").append(xCenter).append("\" cy=\"").append(yCenter).append("\" r=\"").append(r)
                 .append("\" stroke=\"black\" fill=\"white\" />");
         sb.append("<line class=\"wire\" x1=\"").append(xCenter).append("\" y1=\"").append(yCenter - r)
                 .append("\" x2=\"").append(xCenter).append("\" y2=\"").append(yCenter + r).append("\" />");
         sb.append("<line class=\"wire\" x1=\"").append(xCenter - r).append("\" y1=\"").append(yCenter)
                 .append("\" x2=\"").append(xCenter + r).append("\" y2=\"").append(yCenter).append("\" />");
+        sb.append("</g>");
     }
 
-    private static void drawSwap(StringBuilder sb, int xCenter, int yCenter) {
+    private static void drawSwapCircle(StringBuilder sb, int xCenter, int yCenter) {
         int r = 10;
-        sb.append("<line class=\"wire\" x1=\"").append(xCenter - r).append("\" y1=\"").append(yCenter - r)
-                .append("\" x2=\"").append(xCenter + r).append("\" y2=\"").append(yCenter + r).append("\" />");
-        sb.append("<line class=\"wire\" x1=\"").append(xCenter - r).append("\" y1=\"").append(yCenter + r)
-                .append("\" x2=\"").append(xCenter + r).append("\" y2=\"").append(yCenter - r).append("\" />");
+        sb.append("<g>");
+        sb.append("<circle cx=\"").append(xCenter).append("\" cy=\"").append(yCenter).append("\" r=\"").append(r)
+                .append("\" stroke=\"black\" fill=\"white\" />");
+        sb.append("<line class=\"wire\" x1=\"").append(xCenter - r / 2).append("\" y1=\"").append(yCenter - r / 2)
+                .append("\" x2=\"").append(xCenter + r / 2).append("\" y2=\"").append(yCenter + r / 2).append("\" />");
+        sb.append("<line class=\"wire\" x1=\"").append(xCenter - r / 2).append("\" y1=\"").append(yCenter + r / 2)
+                .append("\" x2=\"").append(xCenter + r / 2).append("\" y2=\"").append(yCenter - r / 2).append("\" />");
+        sb.append("</g>");
+    }
+
+    private static void filledCircle(StringBuilder sb, int x, int y) {
+        sb.append("<circle cx=\"").append(x).append("\" cy=\"").append(y).append("\" r=\"5\" fill=\"black\" />");
     }
 
     private static String escape(String s) {
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
 }
-
-
