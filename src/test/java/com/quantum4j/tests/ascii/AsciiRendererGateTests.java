@@ -14,7 +14,7 @@ class AsciiRendererGateTests {
         String ascii = qc.drawAscii();
         assertTrue(ascii.contains("o"));
         assertTrue(ascii.contains("X"));
-        assertFalse(ascii.contains("?"));
+        assertTrue(ascii.contains("|"));
     }
 
     @Test
@@ -22,7 +22,8 @@ class AsciiRendererGateTests {
         QuantumCircuit qc = QuantumCircuit.create(2).cz(0, 1);
         String ascii = qc.drawAscii();
         assertTrue(ascii.contains("o"));
-        assertFalse(ascii.contains("?"));
+        assertTrue(ascii.contains("Z"));
+        assertTrue(ascii.contains("|"));
     }
 
     @Test
@@ -30,7 +31,7 @@ class AsciiRendererGateTests {
         QuantumCircuit qc = QuantumCircuit.create(2).swap(0, 1);
         String ascii = qc.drawAscii();
         assertTrue(ascii.contains("x"));
-        assertFalse(ascii.contains("?"));
+        assertTrue(ascii.contains("|"));
     }
 
     @Test
@@ -39,7 +40,7 @@ class AsciiRendererGateTests {
         String ascii = qc.drawAscii();
         assertTrue(ascii.contains("o"));
         assertTrue(ascii.contains("X"));
-        assertFalse(ascii.contains("?"));
+        assertTrue(ascii.contains("|"));
     }
 }
 

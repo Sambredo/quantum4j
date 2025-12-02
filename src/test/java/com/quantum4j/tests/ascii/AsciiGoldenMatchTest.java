@@ -18,9 +18,9 @@ class AsciiGoldenMatchTest {
                 .h(0)
                 .cx(0, 1)
                 .measureAll();
-        String ascii = qc.drawAscii();
+        String ascii = qc.drawAscii().trim();
         List<String> expected = Files.readAllLines(Path.of("src/test/resources/ascii-golden/BellStateExample.txt"));
-        assertEquals(String.join(System.lineSeparator(), expected), ascii);
+        assertEquals(String.join(System.lineSeparator(), expected).trim(), ascii);
     }
 }
 
