@@ -44,7 +44,7 @@ public final class BellStateExample {
         System.out.println("\nCounts (1000 shots): " + result.getCounts());
 
         // Export QASM
-        String qasm = io.quantum4j.qasm.QasmExporter.toQasm(circuit);
+        String qasm = com.quantum4j.qasm.QasmExporter.toQasm(circuit);
         System.out.println("\nQASM:\n" + qasm);
     }
 
@@ -63,4 +63,5 @@ public final class BellStateExample {
         return sv;
     }
 }
+
 

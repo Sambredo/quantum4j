@@ -45,10 +45,10 @@ public final class QFTDemo {
             int[] q = inst.getQubits();
             if (g instanceof SingleQubitGate) {
                 ((SingleQubitGate) g).apply(sv, q[0]);
-            } else if (g instanceof io.quantum4j.core.gates.TwoQubitGate) {
-                ((io.quantum4j.core.gates.TwoQubitGate) g).apply(sv, q[0], q[1]);
-            } else if (g instanceof io.quantum4j.core.gates.ThreeQubitGate) {
-                ((io.quantum4j.core.gates.ThreeQubitGate) g).apply(sv, q[0], q[1], q[2]);
+            } else if (g instanceof com.quantum4j.core.gates.TwoQubitGate) {
+                ((com.quantum4j.core.gates.TwoQubitGate) g).apply(sv, q[0], q[1]);
+            } else if (g instanceof com.quantum4j.core.gates.ThreeQubitGate) {
+                ((com.quantum4j.core.gates.ThreeQubitGate) g).apply(sv, q[0], q[1], q[2]);
             }
         }
         return sv;
@@ -60,4 +60,5 @@ public final class QFTDemo {
         }
     }
 }
+
 

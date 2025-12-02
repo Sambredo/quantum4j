@@ -93,11 +93,11 @@ class QFTTest {
             StateVector sv = new StateVector(3);
             for (Instruction inst : qc.getInstructions()) {
                 if (inst.getType() == Instruction.Type.GATE) {
-                    if (inst.getGate() instanceof io.quantum4j.core.gates.SingleQubitGate g1) {
+                    if (inst.getGate() instanceof com.quantum4j.core.gates.SingleQubitGate g1) {
                         g1.apply(sv, inst.getQubits()[0]);
-                    } else if (inst.getGate() instanceof io.quantum4j.core.gates.TwoQubitGate g2) {
+                    } else if (inst.getGate() instanceof com.quantum4j.core.gates.TwoQubitGate g2) {
                         g2.apply(sv, inst.getQubits()[0], inst.getQubits()[1]);
-                    } else if (inst.getGate() instanceof io.quantum4j.core.gates.ThreeQubitGate g3) {
+                    } else if (inst.getGate() instanceof com.quantum4j.core.gates.ThreeQubitGate g3) {
                         g3.apply(sv, inst.getQubits()[0], inst.getQubits()[1], inst.getQubits()[2]);
                     }
                 }
@@ -130,4 +130,5 @@ class QFTTest {
         }
     }
 }
+
 

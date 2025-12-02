@@ -166,7 +166,7 @@ public final class QuantumCircuit {
      * @param options execution options
      * @return result of execution
      */
-    public io.quantum4j.core.backend.Result run(RunOptions options) {
+    public com.quantum4j.core.backend.Result run(RunOptions options) {
         Backend backend = BackendFactory.get(options.getBackendType());
         if (backend == null) {
             throw new IllegalStateException("No backend registered for type " + options.getBackendType());
@@ -192,4 +192,5 @@ public final class QuantumCircuit {
         return CircuitSvgRenderer.render(this);
     }
 }
+
 

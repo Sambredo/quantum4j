@@ -45,7 +45,7 @@ Quantum4J organizes its code into the following high-level packages:
   - `com.quantum4j.core.backend` — backend abstractions: `Backend`, `StateVectorBackend`, `RunOptions`, `Result`
   - `com.quantum4j.qasm` — `QasmImporter`, `QasmExporter`
   - `com.quantum4j.transpile` — `TranspilerPass`, `PassManager`, `DefaultTranspiler`
-- `io.quantum4j.transpile.passes` — concrete passes: `SwapDecompositionPass`, `CXCancellationPass`, `U3DecompositionPass`, `RotationFusionPass`, etc.
+- `com.quantum4j.transpile.passes` — concrete passes: `SwapDecompositionPass`, `CXCancellationPass`, `U3DecompositionPass`, `RotationFusionPass`, etc.
 - `com.quantum4j.examples`, `com.quantum4j.algorithms` — example circuits (Bell, QFT)
 
 Below is an ASCII UML-like summary of the principal objects and relationships:
@@ -191,6 +191,7 @@ rmarkdown::render("docs/quantum4j-paper.Rmd", output_format = "word_document")
 ```
 
 This will produce `docs/quantum4j-paper.docx` in the repository.
+
 
 
 

@@ -50,3 +50,4 @@ Replace the main class with any example below.
 - `PassManager` and passes (`SwapDecompositionPass`, `RotationFusionPass`, `CXCancellationPass`, `U3DecompositionPass`) for transpilation.
 - `QFT` utility for Fourier transforms.
 
+

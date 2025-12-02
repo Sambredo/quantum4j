@@ -14,7 +14,7 @@ This package contains canonical, runnable examples that demonstrate Quantum4J fu
 From the project root:
 
 ```bash
-mvn -q exec:java -Dexec.mainClass=io.quantum4j.examples.BellStateDemo
+mvn -q exec:java -Dexec.mainClass=com.quantum4j.examples.BellStateDemo
 ```
 
 Replace the main class with any of the demo class names below.
@@ -32,4 +32,5 @@ Replace the main class with any of the demo class names below.
 - `ErrorHandlingDemo` — examples of invalid usage caught by the API.
 
 All demos avoid mutating input circuits, rely on builder methods, and print deterministic or expectation-aligned outputs suitable for learning.***
+
 

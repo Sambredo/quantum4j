@@ -12,7 +12,7 @@ import java.util.List;
  * H(target) + CZ(control, target) + H(target)
  *
  * This pass is intentionally robust: it detects CNOT even if the gate did not originate from
- * {@link io.quantum4j.core.gates.StandardGates.CNOTGate}.
+ * {@link com.quantum4j.core.gates.StandardGates.CNOTGate}.
  */
 public final class CXToCZDecompositionPass implements TranspilerPass {
 
@@ -73,5 +73,6 @@ public final class CXToCZDecompositionPass implements TranspilerPass {
         return out;
     }
 }
+
 
 

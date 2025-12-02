@@ -25,3 +25,4 @@ public interface Gate {
     int arity(); // number of qubits this gate acts on
 }
 
+
