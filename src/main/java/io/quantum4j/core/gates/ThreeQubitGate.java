@@ -1,7 +1,7 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.StateVector;
 
 /**
  * Abstract base class for three-qubit gates.
@@ -103,3 +103,4 @@ public abstract class ThreeQubitGate implements Gate {
         System.arraycopy(dest, 0, src, 0, dim);
     }
 }
+

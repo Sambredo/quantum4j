@@ -1,7 +1,7 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.StateVector;
 
 /**
  * Abstract base class for two-qubit gates.
@@ -105,3 +105,4 @@ public abstract class TwoQubitGate implements Gate {
         }
     }
 }
+

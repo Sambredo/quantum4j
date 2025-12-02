@@ -1,9 +1,9 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.StandardGates;
-import io.quantum4j.transpile.DefaultTranspiler;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.StandardGates;
+import com.quantum4j.transpile.DefaultTranspiler;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -81,4 +81,5 @@ class DefaultTranspilerTest {
         }
     }
 }
+
 

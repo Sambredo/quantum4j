@@ -1,7 +1,7 @@
-package io.quantum4j.examples.qasm;
+package com.quantum4j.examples.qasm;
 
-import io.quantum4j.qasm.QasmImporter;
-import io.quantum4j.qasm.QasmImporter.QasmParseException;
+import com.quantum4j.qasm.QasmImporter;
+import com.quantum4j.qasm.QasmImporter.QasmParseException;
 
 /**
  * Shows how invalid QASM inputs are rejected with clear exceptions.
@@ -25,4 +25,5 @@ public final class QasmErrorHandlingDemo {
         }
     }
 }
+
 

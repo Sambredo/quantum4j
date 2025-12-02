@@ -1,10 +1,10 @@
-package io.quantum4j.transpile.passes;
+package com.quantum4j.transpile.passes;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.Gate;
-import io.quantum4j.core.gates.StandardGates;
-import io.quantum4j.transpile.TranspilerPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.StandardGates;
+import com.quantum4j.transpile.TranspilerPass;
 
 /**
  * A transpiler pass that cancels consecutive pairs of X gates on the same qubit.
@@ -62,3 +62,4 @@ public final class CancelDoubleXPass implements TranspilerPass {
         return qa.length == 1 && qb.length == 1 && qa[0] == qb[0];
     }
 }
+

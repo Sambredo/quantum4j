@@ -1,4 +1,4 @@
-package io.quantum4j.core.math;
+package com.quantum4j.core.math;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -205,3 +205,4 @@ public final class StateVector {
     }
 
 }
+

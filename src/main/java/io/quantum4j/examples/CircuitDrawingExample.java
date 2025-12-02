@@ -1,6 +1,6 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,3 +23,4 @@ public final class CircuitDrawingExample {
         System.out.println("SVG written to bell.svg");
     }
 }
+

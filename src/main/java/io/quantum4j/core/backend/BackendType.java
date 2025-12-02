@@ -1,4 +1,4 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
 /**
  * Supported backend implementations.
@@ -8,3 +8,4 @@ public enum BackendType {
     HARDWARE
     // Future: DENSITY_MATRIX, STABILIZER, HARDWARE, BRAKET
 }
+

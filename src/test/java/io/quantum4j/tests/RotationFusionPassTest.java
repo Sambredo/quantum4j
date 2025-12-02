@@ -1,10 +1,10 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.StandardGates;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.RotationFusionPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.StandardGates;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.RotationFusionPass;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -94,4 +94,5 @@ class RotationFusionPassTest {
         assertTrue(inst.get(2).getGate() instanceof StandardGates.ZGate);
     }
 }
+
 

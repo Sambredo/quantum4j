@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.GateCommutationPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.GateCommutationPass;
 
 /**
  * Demonstrates the GateCommutationPass by showing before/after instruction order for commuting gates.
@@ -50,4 +50,5 @@ public final class GateCommutationDemo {
         return sb.toString();
     }
 }
+
 

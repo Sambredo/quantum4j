@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * Toffoli (Controlled-Controlled-X or CCX) quantum gate.
@@ -59,3 +59,4 @@ public final class CCXGate extends ThreeQubitGate {
         return "ccx";
     }
 }
+

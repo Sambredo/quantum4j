@@ -1,6 +1,6 @@
-package io.quantum4j.transpile;
+package com.quantum4j.transpile;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * A transpiler pass that transforms a quantum circuit.
@@ -29,3 +29,4 @@ public interface TranspilerPass {
      */
     QuantumCircuit apply(QuantumCircuit circuit);
 }
+

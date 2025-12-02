@@ -1,6 +1,6 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Abstraction for executing quantum circuits.
@@ -19,3 +19,4 @@ public interface Backend {
      */
     Result run(QuantumCircuit circuit, RunOptions options);
 }
+

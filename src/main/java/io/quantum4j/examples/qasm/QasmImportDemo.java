@@ -1,8 +1,8 @@
-package io.quantum4j.examples.qasm;
+package com.quantum4j.examples.qasm;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmImporter;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmImporter;
 
 /**
  * Imports a raw OpenQASM 2.0 string and prints the resulting instruction list.
@@ -29,4 +29,5 @@ public final class QasmImportDemo {
         }
     }
 }
+
 

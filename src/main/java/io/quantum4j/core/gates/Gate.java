@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.core.math.StateVector;
 
 /**
  * Interface representing a quantum gate.
@@ -24,3 +24,4 @@ public interface Gate {
      */
     int arity(); // number of qubits this gate acts on
 }
+

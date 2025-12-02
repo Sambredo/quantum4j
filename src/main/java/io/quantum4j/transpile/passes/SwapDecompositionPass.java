@@ -1,9 +1,9 @@
-package io.quantum4j.transpile.passes;
+package com.quantum4j.transpile.passes;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.StandardGates;
-import io.quantum4j.transpile.TranspilerPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.StandardGates;
+import com.quantum4j.transpile.TranspilerPass;
 
 import java.util.List;
 
@@ -56,4 +56,5 @@ public final class SwapDecompositionPass implements TranspilerPass {
         return out;
     }
 }
+
 

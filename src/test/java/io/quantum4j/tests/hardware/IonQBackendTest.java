@@ -1,11 +1,11 @@
-package io.quantum4j.tests.hardware;
+package com.quantum4j.tests.hardware;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.hardware.IonQBackend;
-import io.quantum4j.core.backend.hardware.http.HardwareBackendHttpClient;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.backend.hardware.IonQBackend;
+import com.quantum4j.core.backend.hardware.http.HardwareBackendHttpClient;
+import com.quantum4j.core.circuit.QuantumCircuit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,3 +73,4 @@ class IonQBackendTest {
         assertTrue(ex.getMessage().contains("failed"));
     }
 }
+

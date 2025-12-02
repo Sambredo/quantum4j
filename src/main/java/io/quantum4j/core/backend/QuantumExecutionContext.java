@@ -1,6 +1,6 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Lightweight container describing an execution request.
@@ -22,3 +22,4 @@ public final class QuantumExecutionContext {
         return options;
     }
 }
+

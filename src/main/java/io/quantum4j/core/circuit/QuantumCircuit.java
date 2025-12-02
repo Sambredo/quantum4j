@@ -1,12 +1,12 @@
-package io.quantum4j.core.circuit;
+package com.quantum4j.core.circuit;
 
-import io.quantum4j.core.backend.Backend;
-import io.quantum4j.core.backend.BackendFactory;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.gates.Gate;
-import io.quantum4j.core.gates.StandardGates;
-import io.quantum4j.visualization.CircuitAsciiRenderer;
-import io.quantum4j.visualization.CircuitSvgRenderer;
+import com.quantum4j.core.backend.Backend;
+import com.quantum4j.core.backend.BackendFactory;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.StandardGates;
+import com.quantum4j.visualization.CircuitAsciiRenderer;
+import com.quantum4j.visualization.CircuitSvgRenderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -192,3 +192,4 @@ public final class QuantumCircuit {
         return CircuitSvgRenderer.render(this);
     }
 }
+

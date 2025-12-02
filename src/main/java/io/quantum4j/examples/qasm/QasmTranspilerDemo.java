@@ -1,9 +1,9 @@
-package io.quantum4j.examples.qasm;
+package com.quantum4j.examples.qasm;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
-import io.quantum4j.qasm.QasmImporter;
-import io.quantum4j.transpile.DefaultTranspiler;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
+import com.quantum4j.qasm.QasmImporter;
+import com.quantum4j.transpile.DefaultTranspiler;
 
 /**
  * Imports QASM, runs the default transpiler, and exports back to QASM.
@@ -29,4 +29,5 @@ public final class QasmTranspilerDemo {
         System.out.println("Transpiled and exported QASM:\n" + exported);
     }
 }
+
 

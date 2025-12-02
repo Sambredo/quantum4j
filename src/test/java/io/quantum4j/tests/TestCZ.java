@@ -1,7 +1,7 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.backend.*;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,3 +15,4 @@ public class TestCZ {
         assertTrue(r.getCounts().containsKey("11"));
     }
 }
+

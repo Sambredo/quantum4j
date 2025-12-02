@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * Rotation around the X-axis (Rx(θ)) quantum gate.
@@ -41,3 +41,4 @@ public final class RXGate extends SingleQubitGate {
                 { new Complex(0, -st), new Complex(ct, 0) } };
     }
 }
+

@@ -1,9 +1,9 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
 import java.util.Collections;
 import java.util.Map;
 
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.core.math.StateVector;
 
 /**
  * Immutable container for quantum circuit execution results.
@@ -75,3 +75,4 @@ public final class Result {
         return "Result{counts=" + counts + ", backend=" + backendType + '}';
     }
 }
+

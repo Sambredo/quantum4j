@@ -1,6 +1,6 @@
-package io.quantum4j.qasm;
+package com.quantum4j.qasm;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Strict OpenQASM 2.0 importer for Quantum4J.
@@ -352,3 +352,4 @@ public final class QasmImporter {
         public QasmParseException(String msg, Throwable c) { super(msg, c); }
     }
 }
+

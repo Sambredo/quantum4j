@@ -1,6 +1,6 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Shows how Quantum4J reports illegal arguments (invalid qubit indices).
@@ -16,4 +16,5 @@ public final class ErrorHandlingDemo {
         }
     }
 }
+
 

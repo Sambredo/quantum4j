@@ -1,13 +1,13 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.SingleQubitGate;
-import io.quantum4j.core.gates.TwoQubitGate;
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.SingleQubitGate;
+import com.quantum4j.core.gates.TwoQubitGate;
+import com.quantum4j.core.math.StateVector;
 
 /**
  * GHZ state demonstration on 3 qubits.
@@ -58,3 +58,4 @@ public final class GHZExample {
         return sv;
     }
 }
+

@@ -1,8 +1,8 @@
-package io.quantum4j.algorithms;
+package com.quantum4j.algorithms;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.GateInversionPass;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.GateInversionPass;
 
 /**
  * Quantum Fourier Transform (QFT) and inverse QFT (IQFT) circuit builders.
@@ -64,3 +64,4 @@ public final class QFT {
         qc.rz(control, half);
     }
 }
+

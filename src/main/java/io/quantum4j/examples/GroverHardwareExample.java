@@ -1,11 +1,11 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendFactory;
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.hardware.IonQBackend;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendFactory;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.backend.hardware.IonQBackend;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Submit a small 2-qubit Grover circuit to a hardware backend (IonQ).
@@ -37,3 +37,4 @@ public final class GroverHardwareExample {
         System.out.println("Hardware result: " + r.getCounts());
     }
 }
+

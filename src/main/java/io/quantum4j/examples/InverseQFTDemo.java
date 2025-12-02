@@ -1,11 +1,11 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.algorithms.QFT;
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.algorithms.QFT;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Shows that applying QFT followed by inverse QFT returns the original basis state.
@@ -27,3 +27,4 @@ public final class InverseQFTDemo {
         System.out.println("Counts after QFT + IQFT on |101>: " + r.getCounts());
     }
 }
+

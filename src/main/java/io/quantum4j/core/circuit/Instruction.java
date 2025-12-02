@@ -1,6 +1,6 @@
-package io.quantum4j.core.circuit;
+package com.quantum4j.core.circuit;
 
-import io.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.Gate;
 
 /**
  * Represents a single instruction in a quantum circuit.
@@ -108,3 +108,4 @@ public final class Instruction {
         return new Instruction(type, gate, qCopy, cCopy);
     }
 }
+

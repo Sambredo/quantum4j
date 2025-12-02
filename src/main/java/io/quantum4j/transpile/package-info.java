@@ -37,4 +37,5 @@
  *
  *  Include this comment block BEFORE generating any new passes.
  */
-package io.quantum4j.transpile;
+package com.quantum4j.transpile;
+

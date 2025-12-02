@@ -1,8 +1,8 @@
-package io.quantum4j.qasm;
+package com.quantum4j.qasm;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.*;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.*;
 
 /**
  * Exports QuantumCircuit objects to OpenQASM 2.0.
@@ -159,3 +159,4 @@ public final class QasmExporter {
         throw new UnsupportedOperationException("Unsupported gate type: " + gate.getClass().getName());
     }
 }
+

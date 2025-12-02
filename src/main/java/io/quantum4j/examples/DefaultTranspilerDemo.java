@@ -1,7 +1,7 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.transpile.DefaultTranspiler;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.transpile.DefaultTranspiler;
 
 /**
  * Runs the default transpiler pipeline on a sample circuit and prints before/after instruction counts.
@@ -20,4 +20,5 @@ public final class DefaultTranspilerDemo {
         System.out.println("After transpile: " + out.getInstructions().size() + " instructions");
     }
 }
+
 

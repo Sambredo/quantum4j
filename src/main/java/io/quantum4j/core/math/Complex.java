@@ -1,4 +1,4 @@
-package io.quantum4j.core.math;
+package com.quantum4j.core.math;
 
 import java.util.Objects;
 
@@ -135,3 +135,4 @@ public final class Complex {
         return Objects.hash(re, im);
     }
 }
+

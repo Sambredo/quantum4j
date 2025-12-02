@@ -1,4 +1,4 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
 /**
  * Configuration for quantum circuit execution.
@@ -85,3 +85,4 @@ public final class RunOptions {
         this.shots = shots;
     }
 }
+

@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * CNOT (Controlled-NOT) quantum gate.
@@ -36,3 +36,4 @@ public final class CNOTGate extends TwoQubitGate {
         return "cx";
     }
 }
+

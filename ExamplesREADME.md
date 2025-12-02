@@ -9,13 +9,13 @@ Unified, runnable examples demonstrating end-to-end usage of Quantum4J (Apache 2
 ## How to run
 From project root:
 ```
-mvn -q -Dexec.mainClass=io.quantum4j.examples.BellStateExample exec:java
+mvn -q -Dexec.mainClass=com.quantum4j.examples.BellStateExample exec:java
 ```
 Replace the main class with any example below.
 
 ## Directory structure
-- `src/main/java/io/quantum4j/examples/` — canonical examples
-- `src/main/java/io/quantum4j/examples/qasm/` — QASM-focused demos (already present)
+- `src/main/java/com/quantum4j/examples/` — canonical examples
+- `src/main/java/com/quantum4j/examples/qasm/` — QASM-focused demos (already present)
 
 ## Examples (this module)
 - `BellStateExample` — Bell pair, statevector, counts, QASM export.
@@ -49,3 +49,4 @@ Replace the main class with any example below.
 - `QasmExporter` / `QasmImporter` for OpenQASM 2.0 round-trip.
 - `PassManager` and passes (`SwapDecompositionPass`, `RotationFusionPass`, `CXCancellationPass`, `U3DecompositionPass`) for transpilation.
 - `QFT` utility for Fourier transforms.
+

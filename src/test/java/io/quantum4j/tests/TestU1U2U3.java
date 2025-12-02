@@ -1,7 +1,7 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.backend.*;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.*;
+import com.quantum4j.core.circuit.QuantumCircuit;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,3 +45,4 @@ public class TestU1U2U3 {
         assertTrue(r.getCounts().size() >= 1);
     }
 }
+

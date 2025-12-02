@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Creates a Bell state |Φ+> and measures it to demonstrate entanglement.
@@ -19,4 +19,5 @@ public final class BellStateDemo {
         System.out.println("Bell state counts (approx 50/50 00 and 11): " + r.getCounts());
     }
 }
+
 

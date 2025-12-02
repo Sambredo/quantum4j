@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Deutsch's algorithm demonstrating constant vs balanced oracle.
@@ -44,3 +44,4 @@ public final class DeutschAlgorithmExample {
         System.out.println("Counts: " + r.getCounts());
     }
 }
+

@@ -1,4 +1,4 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,3 +40,4 @@ public final class BackendFactory {
         registry.put(type, backend);
     }
 }
+

@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * Controlled Hadamard (CH) quantum gate.
@@ -35,3 +35,4 @@ public final class CHGate extends TwoQubitGate {
         return "ch";
     }
 }
+

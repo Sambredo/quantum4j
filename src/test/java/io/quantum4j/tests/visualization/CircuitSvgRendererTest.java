@@ -1,7 +1,7 @@
-package io.quantum4j.tests.visualization;
+package com.quantum4j.tests.visualization;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.visualization.CircuitSvgRenderer;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.visualization.CircuitSvgRenderer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,3 +28,4 @@ class CircuitSvgRendererTest {
         assertEquals(a, b);
     }
 }
+

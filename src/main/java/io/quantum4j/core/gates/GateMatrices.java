@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * Pre-computed matrix representations for standard quantum gates.
@@ -168,3 +168,4 @@ public final class GateMatrices {
         return new Complex(0, i);
     }
 }
+

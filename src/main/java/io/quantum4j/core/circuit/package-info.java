@@ -4,4 +4,5 @@
  *
  * This package provides the user-facing fluent DSL for building circuits.
  */
-package io.quantum4j.core.circuit;
+package com.quantum4j.core.circuit;
+

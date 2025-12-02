@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Showcases common gates: single-qubit, rotations, controlled, and U-gates.
@@ -28,4 +28,5 @@ public final class GateLibraryDemo {
         System.out.println("Gate library demo counts: " + r.getCounts());
     }
 }
+
 

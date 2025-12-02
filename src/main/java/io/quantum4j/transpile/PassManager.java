@@ -1,7 +1,7 @@
-package io.quantum4j.transpile;
+package com.quantum4j.transpile;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.Instruction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,3 +78,4 @@ public final class PassManager {
         return copy;
     }
 }
+

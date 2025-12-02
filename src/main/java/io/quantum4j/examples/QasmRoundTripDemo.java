@@ -1,8 +1,8 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
-import io.quantum4j.qasm.QasmImporter;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
+import com.quantum4j.qasm.QasmImporter;
 
 /**
  * Demonstrates exporting a circuit to OpenQASM 2.0 and importing it back.
@@ -21,4 +21,5 @@ public final class QasmRoundTripDemo {
         System.out.println("Round-trip instructions: " + roundTrip.getInstructions().size());
     }
 }
+
 

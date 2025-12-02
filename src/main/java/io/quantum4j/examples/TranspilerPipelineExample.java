@@ -1,12 +1,12 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.CXCancellationPass;
-import io.quantum4j.transpile.passes.RotationFusionPass;
-import io.quantum4j.transpile.passes.SwapDecompositionPass;
-import io.quantum4j.transpile.passes.U3DecompositionPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.CXCancellationPass;
+import com.quantum4j.transpile.passes.RotationFusionPass;
+import com.quantum4j.transpile.passes.SwapDecompositionPass;
+import com.quantum4j.transpile.passes.U3DecompositionPass;
 
 /**
  * Demonstrates a simple transpiler pipeline.
@@ -63,3 +63,4 @@ public final class TranspilerPipelineExample {
         return "";
     }
 }
+

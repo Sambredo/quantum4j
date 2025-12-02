@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Builds a 3-qubit GHZ state and measures it.
@@ -20,4 +20,5 @@ public final class GHZStateDemo {
         System.out.println("GHZ counts (approx 50/50 000 and 111): " + r.getCounts());
     }
 }
+
 

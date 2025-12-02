@@ -1,9 +1,9 @@
-package io.quantum4j.visualization;
+package com.quantum4j.visualization;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.Gate;
-import io.quantum4j.core.gates.StandardGates;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.StandardGates;
 
 /**
  * SVG renderer for QuantumCircuit.
@@ -114,3 +114,4 @@ public final class CircuitSvgRenderer {
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
     }
 }
+

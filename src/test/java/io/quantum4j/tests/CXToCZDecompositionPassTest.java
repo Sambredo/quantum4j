@@ -1,10 +1,10 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.StandardGates;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.CXToCZDecompositionPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.StandardGates;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.CXToCZDecompositionPass;
 import org.junit.jupiter.api.Test;
 
 
@@ -114,3 +114,4 @@ public class CXToCZDecompositionPassTest {
         assertTrue(inst.get(4).getGate() instanceof StandardGates.ZGate);
     }
 }
+

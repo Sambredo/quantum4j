@@ -1,17 +1,19 @@
-package io.quantum4j.visualization;
+package com.quantum4j.visualization;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.Gate;
-import io.quantum4j.core.gates.StandardGates;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.StandardGates;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ASCII renderer for QuantumCircuit.
+ * Pure ASCII renderer for QuantumCircuit. Uses simple characters (-, |, [, ]) to avoid encoding issues.
  */
 public final class CircuitAsciiRenderer {
+
+    private static final int CELL_WIDTH = 9; // consistent spacing per column
 
     private CircuitAsciiRenderer() {
     }
@@ -24,98 +26,100 @@ public final class CircuitAsciiRenderer {
         }
 
         for (Instruction inst : circuit.getInstructions()) {
-            int width = 7;
-            String label = "";
-            if (inst.getType() == Instruction.Type.GATE) {
-                label = GateSymbol.label(inst.getGate());
-                width = Math.max(7, label.length() + 4);
-            }
-            List<String> column = new ArrayList<>(qCount);
+            List<String> col = new ArrayList<>(qCount);
             for (int q = 0; q < qCount; q++) {
-                column.add(repeat('─', width));
+                col.add(repeat('-', CELL_WIDTH));
             }
 
-            switch (inst.getType()) {
-            case GATE:
+            if (inst.getType() == Instruction.Type.GATE) {
                 Gate g = inst.getGate();
                 int[] qs = inst.getQubits();
+
                 if (g instanceof StandardGates.CNOTGate || g instanceof StandardGates.CZGate
                         || g instanceof StandardGates.SWAPGate) {
                     int c = qs[0];
                     int t = qs[1];
                     int min = Math.min(c, t);
                     int max = Math.max(c, t);
-                    // draw vertical connectors
                     for (int q = min + 1; q < max; q++) {
-                        column.set(q, centerWith('│', width));
+                        col.set(q, centerWith('|'));
                     }
                     if (g instanceof StandardGates.CNOTGate) {
-                        column.set(c, centerWith('●', width));
-                        column.set(t, gateBox("X", width));
+                        col.set(c, centerWith('o'));
+                        col.set(t, gateBox("X"));
                     } else if (g instanceof StandardGates.CZGate) {
-                        column.set(c, centerWith('●', width));
-                        column.set(t, gateBox("Z", width));
+                        col.set(c, centerWith('o'));
+                        col.set(t, centerWith('o'));
                     } else { // SWAP
-                        column.set(c, centerWith('x', width));
-                        column.set(t, centerWith('x', width));
-                        // add visible vertical connection
-                        for (int q = min; q <= max; q++) {
-                            if (q != c && q != t) {
-                                column.set(q, centerWith('│', width));
-                            }
+                        col.set(c, centerWith('x'));
+                        col.set(t, centerWith('x'));
+                        for (int q = min + 1; q < max; q++) {
+                            col.set(q, centerWith('|'));
                         }
-                        column.set(c, column.get(c) + "│");
-                        column.set(t, column.get(t) + "│");
                     }
+                } else if (g instanceof StandardGates.CCXGate) {
+                    int c1 = qs[0];
+                    int c2 = qs[1];
+                    int t = qs[2];
+                    int min = Math.min(Math.min(c1, c2), t);
+                    int max = Math.max(Math.max(c1, c2), t);
+                    for (int q = min + 1; q < max; q++) {
+                        col.set(q, centerWith('|'));
+                    }
+                    col.set(c1, centerWith('o'));
+                    col.set(c2, centerWith('o'));
+                    col.set(t, gateBox("X"));
                 } else {
-                    column.set(qs[0], gateBox(label, width));
+                    String label = GateSymbol.label(g);
+                    col.set(qs[0], gateBox(label));
                 }
-                break;
-            case MEASURE:
-                int mq = inst.getQubits()[0];
-                column.set(mq, gateBox("M", width));
-                break;
-            default:
-                break;
+            } else if (inst.getType() == Instruction.Type.MEASURE) {
+                int q = inst.getQubits()[0];
+                col.set(q, gateBox("M"));
             }
 
             for (int q = 0; q < qCount; q++) {
-                rows.get(q).append(column.get(q));
+                rows.get(q).append(col.get(q));
             }
         }
 
         StringBuilder out = new StringBuilder();
-        for (int q = 0; q < rows.size(); q++) {
-            out.append(rows.get(q));
-            if (q < rows.size() - 1)
+        for (int i = 0; i < rows.size(); i++) {
+            out.append(rows.get(i));
+            if (i < rows.size() - 1) {
                 out.append(System.lineSeparator());
+            }
         }
         return out.toString();
     }
 
-    private static String gateBox(String label, int width) {
-        String inner = padCenter(label, width - 4);
-        return "──┤" + inner + "├";
+    private static String gateBox(String label) {
+        String inner = padCenter(label, CELL_WIDTH - 4);
+        return "--[" + inner + "]";
     }
 
     private static String padCenter(String s, int len) {
-        if (s.length() >= len)
+        if (s.length() >= len) {
             return s.substring(0, len);
+        }
         int left = (len - s.length()) / 2;
         int right = len - s.length() - left;
         return repeat(' ', left) + s + repeat(' ', right);
     }
 
-    private static String centerWith(char c, int width) {
-        char[] arr = repeat('─', width).toCharArray();
-        arr[width / 2] = c;
+    private static String centerWith(char c) {
+        char[] arr = repeat('-', CELL_WIDTH).toCharArray();
+        int idx = CELL_WIDTH / 2;
+        arr[idx] = c;
         return new String(arr);
     }
 
     private static String repeat(char c, int n) {
         StringBuilder sb = new StringBuilder(n);
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             sb.append(c);
+        }
         return sb.toString();
     }
 }
+

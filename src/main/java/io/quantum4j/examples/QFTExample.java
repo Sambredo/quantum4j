@@ -1,12 +1,12 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.algorithms.QFT;
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.SingleQubitGate;
-import io.quantum4j.core.gates.TwoQubitGate;
-import io.quantum4j.core.gates.ThreeQubitGate;
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.algorithms.QFT;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.SingleQubitGate;
+import com.quantum4j.core.gates.TwoQubitGate;
+import com.quantum4j.core.gates.ThreeQubitGate;
+import com.quantum4j.core.math.StateVector;
 
 /**
  * QFT(3) amplitudes for basis states |001>, |010>, |111>.
@@ -63,3 +63,4 @@ public final class QFTExample {
         return sv;
     }
 }
+

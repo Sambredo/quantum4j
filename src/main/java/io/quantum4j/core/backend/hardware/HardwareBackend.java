@@ -1,8 +1,8 @@
-package io.quantum4j.core.backend.hardware;
+package com.quantum4j.core.backend.hardware;
 
-import io.quantum4j.core.backend.Backend;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.backend.Backend;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
 
 /**
  * Hardware backend abstraction. Implementations submit circuits to vendor hardware services using OpenQASM 2.0.
@@ -35,3 +35,4 @@ public interface HardwareBackend extends Backend {
      */
     Result parseVendorResult(String json);
 }
+

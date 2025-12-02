@@ -1,7 +1,7 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.circuit.Instruction;
 
 /**
  * Basic circuit construction: create a circuit, add gates/measurements, and print instructions.
@@ -21,4 +21,5 @@ public final class CircuitBasicsDemo {
         }
     }
 }
+
 

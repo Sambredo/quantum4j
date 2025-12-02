@@ -1,10 +1,10 @@
-package io.quantum4j.visualization;
+package com.quantum4j.visualization;
 
-import io.quantum4j.core.gates.Gate;
-import io.quantum4j.core.gates.StandardGates;
+import com.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.StandardGates;
 
 /**
- * Maps gates to human-readable symbols for rendering.
+ * Maps gates to plain ASCII labels for rendering.
  */
 public final class GateSymbol {
     private GateSymbol() {
@@ -17,8 +17,8 @@ public final class GateSymbol {
         if (g instanceof StandardGates.ZGate) return "Z";
         if (g instanceof StandardGates.RZGate) {
             double theta = ((StandardGates.RZGate) g).getTheta();
-            if (Math.abs(theta - Math.PI / 4) < 1e-9) return "RZ(π/4)";
-            if (Math.abs(theta - Math.PI / 2) < 1e-9) return "RZ(π/2)";
+            if (Math.abs(theta - Math.PI / 4) < 1e-9) return "RZ(pi/4)";
+            if (Math.abs(theta - Math.PI / 2) < 1e-9) return "RZ(pi/2)";
             return "RZ(" + theta + ")";
         }
         if (g instanceof StandardGates.RXGate) return "RX";
@@ -29,3 +29,4 @@ public final class GateSymbol {
         return g.name();
     }
 }
+

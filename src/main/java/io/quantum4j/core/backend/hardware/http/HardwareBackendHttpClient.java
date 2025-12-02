@@ -1,4 +1,4 @@
-package io.quantum4j.core.backend.hardware.http;
+package com.quantum4j.core.backend.hardware.http;
 
 import java.io.IOException;
 import java.net.URI;
@@ -92,3 +92,4 @@ public final class HardwareBackendHttpClient {
         }
     }
 }
+

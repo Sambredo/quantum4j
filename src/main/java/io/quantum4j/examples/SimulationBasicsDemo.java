@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.circuit.QuantumCircuit;
 
 /**
  * Demonstrates running a simple circuit, collecting counts, and inspecting the state before measurement.
@@ -19,4 +19,5 @@ public final class SimulationBasicsDemo {
         System.out.println("Counts for Bell state (approx. 50/50): " + result.getCounts());
     }
 }
+
 

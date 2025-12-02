@@ -1,8 +1,8 @@
-package io.quantum4j.examples.qasm;
+package com.quantum4j.examples.qasm;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
-import io.quantum4j.qasm.QasmImporter;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
+import com.quantum4j.qasm.QasmImporter;
 
 /**
  * Demonstrates deterministic export/import/export round-trip of a circuit.
@@ -23,4 +23,5 @@ public final class QasmRoundTripDemo {
         System.out.println("Round-trip export:\n" + qasm2);
     }
 }
+
 

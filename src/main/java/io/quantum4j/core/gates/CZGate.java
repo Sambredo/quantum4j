@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * Controlled-Z (CZ) quantum gate.
@@ -31,3 +31,4 @@ public final class CZGate extends TwoQubitGate {
         return "cz";
     }
 }
+

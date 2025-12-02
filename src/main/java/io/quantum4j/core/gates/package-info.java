@@ -5,4 +5,5 @@
  * {@link io.quantum4j.core.gates.ThreeQubitGate} - {@link io.quantum4j.core.gates.StandardGates} -
  * {@link io.quantum4j.core.gates.GateMatrices}
  */
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
+

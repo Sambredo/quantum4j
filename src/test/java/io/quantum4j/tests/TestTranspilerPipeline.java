@@ -1,12 +1,12 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.CancelDoubleXPass;
-import io.quantum4j.transpile.passes.CancelDoubleHPass;
-import io.quantum4j.transpile.passes.CancelDoubleZPass;
-import io.quantum4j.transpile.passes.RemoveRedundantMeasurementPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.CancelDoubleXPass;
+import com.quantum4j.transpile.passes.CancelDoubleHPass;
+import com.quantum4j.transpile.passes.CancelDoubleZPass;
+import com.quantum4j.transpile.passes.RemoveRedundantMeasurementPass;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,3 +46,4 @@ public class TestTranspilerPipeline {
         assertArrayEquals(new int[]{0}, only.getClassicalBits());
     }
 }
+

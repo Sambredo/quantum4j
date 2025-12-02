@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * Factory class providing standard single- and two-qubit gates.
@@ -338,3 +338,4 @@ public final class StandardGates {
     }
 
 }
+

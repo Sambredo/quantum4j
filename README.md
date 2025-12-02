@@ -98,7 +98,7 @@ Includes reference circuits for:
 ## Maven (Maven Central)
 ```xml
 <dependency>
-    <groupId>io.github.quantum4j</groupId>
+    <groupId>com.quantum4j</groupId>
     <artifactId>quantum4j</artifactId>
     <version>1.3.1</version>
 </dependency>
@@ -106,7 +106,7 @@ Includes reference circuits for:
 
 ## Gradle
 ```gradle
-implementation 'io.quantum4j:quantum4j:1.3.1'
+implementation 'com.quantum4j:quantum4j:1.3.1'
 ```
 
 ## From Source
@@ -121,8 +121,8 @@ git clone https://github.com/quantum4j/quantum4j.git
 ### Create a Bell State
 
 ```java
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.backend.*;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.backend.*;
 
 public class BellState {
     public static void main(String[] args) {
@@ -347,4 +347,5 @@ System.out.println(r.getCounts());
 ## Feature Highlights (recap)
 - OpenQASM 2.0 import/export (strict importer, deterministic exporter).
 - Pluggable backends: STATEVECTOR simulator built-in; optional hardware via BackendFactory (IonQ example).
+
 

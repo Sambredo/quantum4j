@@ -1,9 +1,9 @@
-package io.quantum4j.examples;
+package com.quantum4j.examples;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
-import io.quantum4j.qasm.QasmImporter;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
+import com.quantum4j.qasm.QasmImporter;
 
 /**
  * Demonstrates QASM export/import round-trip.
@@ -45,3 +45,4 @@ public final class QasmRoundTripExample {
         return true;
     }
 }
+

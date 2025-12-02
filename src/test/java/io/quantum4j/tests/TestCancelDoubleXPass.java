@@ -1,8 +1,8 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.CancelDoubleXPass;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.CancelDoubleXPass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,3 +36,4 @@ public class TestCancelDoubleXPass {
         assertEquals(qc.getInstructions().size(), optimized.getInstructions().size());
     }
 }
+

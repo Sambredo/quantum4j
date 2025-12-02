@@ -1,6 +1,6 @@
-package io.quantum4j.core.gates;
+package com.quantum4j.core.gates;
 
-import io.quantum4j.core.math.Complex;
+import com.quantum4j.core.math.Complex;
 
 /**
  * SWAP quantum gate.
@@ -31,3 +31,4 @@ public final class SWAPGate extends TwoQubitGate {
         return "swap";
     }
 }
+

@@ -1,15 +1,15 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
-import io.quantum4j.qasm.QasmImporter;
-import io.quantum4j.qasm.QasmImporter.QasmParseException;
-import io.quantum4j.transpile.PassManager;
-import io.quantum4j.transpile.passes.CXCancellationPass;
-import io.quantum4j.transpile.passes.RotationFusionPass;
-import io.quantum4j.transpile.passes.SwapDecompositionPass;
-import io.quantum4j.transpile.passes.U3DecompositionPass;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
+import com.quantum4j.qasm.QasmImporter;
+import com.quantum4j.qasm.QasmImporter.QasmParseException;
+import com.quantum4j.transpile.PassManager;
+import com.quantum4j.transpile.passes.CXCancellationPass;
+import com.quantum4j.transpile.passes.RotationFusionPass;
+import com.quantum4j.transpile.passes.SwapDecompositionPass;
+import com.quantum4j.transpile.passes.U3DecompositionPass;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -234,3 +234,4 @@ class QasmComplianceV20Test {
         assertInstructionListsEqual(qc, roundTrip(qc));
     }
 }
+

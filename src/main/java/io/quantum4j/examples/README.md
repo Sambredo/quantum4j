@@ -32,3 +32,4 @@ Replace the main class with any of the demo class names below.
 - `ErrorHandlingDemo` — examples of invalid usage caught by the API.
 
 All demos avoid mutating input circuits, rely on builder methods, and print deterministic or expectation-aligned outputs suitable for learning.***
+

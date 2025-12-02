@@ -1,9 +1,9 @@
-package io.quantum4j.tests;
+package com.quantum4j.tests;
 
-import io.quantum4j.core.backend.*;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
-import io.quantum4j.qasm.QasmImporter;
+import com.quantum4j.core.backend.*;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
+import com.quantum4j.qasm.QasmImporter;
 
 import org.junit.jupiter.api.Test;
 
@@ -109,3 +109,4 @@ public class TestQasmImporter {
     }
 
 }
+

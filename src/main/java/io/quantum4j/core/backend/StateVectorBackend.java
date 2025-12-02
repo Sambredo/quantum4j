@@ -1,14 +1,14 @@
-package io.quantum4j.core.backend;
+package com.quantum4j.core.backend;
 
-import io.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.BackendType;
 
-import io.quantum4j.core.circuit.Instruction;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.core.gates.Gate;
-import io.quantum4j.core.gates.SingleQubitGate;
-import io.quantum4j.core.gates.TwoQubitGate;
-import io.quantum4j.core.gates.ThreeQubitGate;
-import io.quantum4j.core.math.StateVector;
+import com.quantum4j.core.circuit.Instruction;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.core.gates.Gate;
+import com.quantum4j.core.gates.SingleQubitGate;
+import com.quantum4j.core.gates.TwoQubitGate;
+import com.quantum4j.core.gates.ThreeQubitGate;
+import com.quantum4j.core.math.StateVector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,3 +116,4 @@ public final class StateVectorBackend implements Backend {
         return sb.toString();
     }
 }
+

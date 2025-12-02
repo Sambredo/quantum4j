@@ -1,11 +1,11 @@
-package io.quantum4j.core.backend.hardware;
+package com.quantum4j.core.backend.hardware;
 
-import io.quantum4j.core.backend.BackendType;
-import io.quantum4j.core.backend.Result;
-import io.quantum4j.core.backend.RunOptions;
-import io.quantum4j.core.backend.hardware.http.HardwareBackendHttpClient;
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
+import com.quantum4j.core.backend.BackendType;
+import com.quantum4j.core.backend.Result;
+import com.quantum4j.core.backend.RunOptions;
+import com.quantum4j.core.backend.hardware.http.HardwareBackendHttpClient;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -152,3 +152,4 @@ public final class IonQBackend implements HardwareBackend {
         }
     }
 }
+

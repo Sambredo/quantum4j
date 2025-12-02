@@ -1,7 +1,7 @@
-package io.quantum4j.examples.qasm;
+package com.quantum4j.examples.qasm;
 
-import io.quantum4j.core.circuit.QuantumCircuit;
-import io.quantum4j.qasm.QasmExporter;
+import com.quantum4j.core.circuit.QuantumCircuit;
+import com.quantum4j.qasm.QasmExporter;
 
 /**
  * Exports a small circuit (Bell + U3) to OpenQASM 2.0 and prints the result.
@@ -18,4 +18,5 @@ public final class QasmExportDemo {
         System.out.println("Exported QASM:\n" + qasm);
     }
 }
+
 
