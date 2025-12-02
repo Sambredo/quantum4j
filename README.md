@@ -343,3 +343,8 @@ System.out.println(r.getCounts());
 
 5) Example
 - See io.quantum4j.examples.GroverHardwareExample for an end-to-end IonQ submission sample.
+
+## Feature Highlights (recap)
+- OpenQASM 2.0 import/export (strict importer, deterministic exporter).
+- Pluggable backends: STATEVECTOR simulator built-in; optional hardware via BackendFactory (IonQ example).
+

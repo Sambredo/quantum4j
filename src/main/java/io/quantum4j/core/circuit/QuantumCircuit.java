@@ -5,6 +5,8 @@ import io.quantum4j.core.backend.BackendFactory;
 import io.quantum4j.core.backend.RunOptions;
 import io.quantum4j.core.gates.Gate;
 import io.quantum4j.core.gates.StandardGates;
+import io.quantum4j.visualization.CircuitAsciiRenderer;
+import io.quantum4j.visualization.CircuitSvgRenderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -170,5 +172,23 @@ public final class QuantumCircuit {
             throw new IllegalStateException("No backend registered for type " + options.getBackendType());
         }
         return backend.run(this, options);
+    }
+
+    /**
+     * Render this circuit as ASCII art.
+     *
+     * @return ASCII diagram
+     */
+    public String drawAscii() {
+        return CircuitAsciiRenderer.render(this);
+    }
+
+    /**
+     * Render this circuit as SVG.
+     *
+     * @return SVG string
+     */
+    public String toSvg() {
+        return CircuitSvgRenderer.render(this);
     }
 }
