@@ -98,13 +98,13 @@ Quantum4J aims to become the **engineering layer** of the quantum software stack
 <dependency>
     <groupId>com.quantum4j</groupId>
     <artifactId>quantum4j</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
 </dependency>
 ```
 
 ## Gradle
 ```gradle
-implementation 'com.quantum4j:quantum4j:1.3.1'
+implementation 'com.quantum4j:quantum4j:1.3.2'
 ```
 
 ## From Source

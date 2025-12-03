@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.3.2] - 2025-12-02
+### Added
+- Visualization improvements:
+  - Dynamic-width SVG gate boxes with tooltips for full param values.
+  - ASCII renderer raw/pretty modes with deterministic multi-qubit routing.
+  - Helpers to write ASCII/SVG diagrams to disk.
+  - VisualizationGoldenSuite and ExampleCircuitValidator for golden regeneration.
+- Regenerated golden ASCII fixtures (raw mode) and updated gate layout tests.
+
+### Changed
+- Default documentation snippets now reference version 1.3.2.
+
 ## [1.3.1] - 2025-12-XX
 ### Changed
 - Bumped artifact version to 1.3.1 for the upcoming release.
