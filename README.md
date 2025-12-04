@@ -4,6 +4,7 @@
 ![Build](https://github.com/quantum4j/quantum4j/actions/workflows/maven.yml/badge.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 ![Java](https://img.shields.io/badge/Java-17%2B-blue)
+![Maven Central](https://img.shields.io/maven-central/v/com.quantum4j/quantum4j.svg)
 ![Stars](https://img.shields.io/github/stars/quantum4j/quantum4j.svg?style=flat)
 
 ---
@@ -116,6 +117,18 @@ mvn test
 ---
 
 # 🚀 Quick Start Example
+
+## 🧪 Hello Quantum (minimal example)
+
+```java
+QuantumCircuit qc = QuantumCircuit.create(1).h(0).measureAll();
+Result r = qc.run(RunOptions.withBackend(BackendType.STATEVECTOR).withShots(200));
+System.out.println(r.getCounts());  // roughly {0≈100, 1≈100}
+```
+
+This is the smallest runnable example to get started quickly.
+
+➡️ See `/src/main/java/com/quantum4j/examples` for 25+ runnable demos.
 
 ### Create a Bell State
 
@@ -291,7 +304,7 @@ If you find this useful: https://github.com/quantum4j/quantum4j
 
 # Running on Real Quantum Hardware
 
-Quantum4J supports pluggable backends. The default is STATEVECTOR simulation. To run on hardware (IonQ example):
+Quantum4J supports pluggable backends. The default is STATEVECTOR simulation. Hardware backends are optional and only used if you register them manually (IonQ example below):
 
 1) Register a hardware backend:
 ```java
