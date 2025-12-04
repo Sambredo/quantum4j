@@ -1,10 +1,13 @@
 # Quantum4J Examples
 
-Unified, runnable examples demonstrating end-to-end usage of Quantum4J (Apache 2.0).
+This folder contains runnable, self-contained examples demonstrating Quantum4J features: simulation, hardware execution, QASM round-trip, transpilation, and visualization.
+
+For installation and project overview, see the main README.md.
 
 ## Prerequisites
 - Java 17+
 - Maven
+- All examples run directly via `mvn exec:java` (see commands below).
 
 ## How to run
 From project root:
@@ -26,6 +29,10 @@ Replace the main class with any example below.
 - Transpiler: `TranspilerPipelineExample`
 - Hardware: `GroverHardwareExample`
 - Visualization: `CircuitDrawingExample`, `VisualizationGoldenSuite`
+
+Included examples: Bell, GHZ, Teleportation, Deutsch, Grover, QFT, QASM round-trip, transpiler passes, visualization, hardware.
+
+Hardware disclaimer: hardware examples require environment variables (e.g., `IONQ_API_KEY`) and will fail fast if credentials are missing.
 
 ---
 ## Examples with snippets & expected output
