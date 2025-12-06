@@ -326,7 +326,7 @@ Copyright (c) 2025 Vijaya Anand Geddada
 # 🏢 Maintainer
 
 **Vijay Anand Geddada**  
-Creator – Quantum4J, mainMethod  
+Creator – Quantum4J  
 20+ years enterprise engineering leadership  
 Cloud-native • Microservices • Java • Spring • Quantum
 
